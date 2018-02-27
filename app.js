@@ -8,6 +8,7 @@ const logger = require('koa-logger')
 
 const index = require('./routes/index')
 const users = require('./routes/users')
+const manage = require('./routes/manage')
 global.config = require('./config')
 
 // error handler
@@ -72,6 +73,7 @@ blog.run();
 // routes
 app.use(index.routes(), index.allowedMethods())
 app.use(users.routes(), users.allowedMethods())
+app.use(manage.routes(), manage.allowedMethods())
 
 // error-handling
 app.on('error', (err, ctx) => {
