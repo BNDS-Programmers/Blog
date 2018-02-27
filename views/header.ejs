@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head
+    <meta charset="UTF-8">
+    <title><%= title%> - <%= subtitle%></title>
+    <link rel="stylesheet" href="libs/semantic-ui/semantic.min.css">
+    <script src="libs/jquery.min.js"></script>
+    <script src="libs//semantic-ui/semantic.min.js"></script>
+</head>
+<body>
+    <div class="ui top fixed borderless labeled icon menu" style="position: fixed;">
+        <div class="ui container">
+            <a class="header item" href="/">
+                <span style="width: 90px; height: 30px; font-size: 30px; text-align: center">
+                    <%= title%>
+                </span>
+            </a>
+            <a class="item <% if (current === 'home') { %> active <% } %>" href="/">
+                <i class="home icon"> </i>
+                Home
+            </a>
+            <a class="item <% if (current === 'archive') { %> active <% } %>" href="/archive">
+                <i class="archive icon"></i>
+                Archive
+            </a>
+            <a class="item <% if (current === 'projects') { %> active <% } %>" href="/works">
+                <i class="cubes icon"></i>
+                Projects
+            </a>
+            <a class="item <% if (current === 'about') { %> active <% } %>" href="/about">
+                <i class="user icon"></i>
+                About Me
+            </a>
+            <div class="right item">
+                <div class="ui search">
+                    <div class="ui icon input">
+                        <input class="prompt" placeholder="Search Articles..." type="text">
+                        <i class="search icon"></i>
+                    </div>
+                    <div class="results"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            var content = <% if(art_list_length !== 0) { %> art_list <% } else {%> [] <% } %>
+            $('.ui.search').search({
+                source: content
+            });
+        });
+    </script>
+    </br>
+    </br>
+    </br>
+    </br>
+    
