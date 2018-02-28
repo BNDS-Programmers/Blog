@@ -10,12 +10,14 @@ router.get('/articles', async (ctx, next) => {
     const ArticleSnap = global.blog.loadModule('article_snap');
     let get_param = ctx.query;
     let page = get_param.page;
+    if(typeof page === 'undefined') page = 1;
+    else page = parseInt(page);
     let pageinate = global.config.manage.article_pageinate;
     let article_cnt = 0;
     await article.findAll().then((ret) => article_cnt = ret.length);
-    if(typeof page === 'undefined') page = 1;
-    else if(page < 1) page = 1;
-    else if (page > article_cnt / pageinate + 1) Math.ceil(article_cnt / pageinate);
+    if(page < 1) page = 1;
+    else if (page > article_cnt / pageinate + 1) page = Math.ceil(article_cnt / pageinate);
+    console.log(page);
     await article.findAll({offset: pageinate * (page - 1), limit: pageinate}).then(async (ret) => {
         let dict_render = require('../modules/user_agent_snap').response(ctx, "article", '', "Articles");
         var cnt = 0;
