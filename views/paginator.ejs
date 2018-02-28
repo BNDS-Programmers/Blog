@@ -12,7 +12,7 @@
             let right_start = right;
             let rem_left = false;
             let rem_right = false;
-            if(left >= 5){
+            if(left >= 7){
                 left_start = pagination.current - 5;
                 rem_left = true;
             }
@@ -40,7 +40,7 @@
                     <a class="item" href="/manage/articles?page=<%= i %>"><%= i%></a>
                 <% } %>
                 <a class="disabled item">...</a>
-                <a class="item" href="/manage/articles?page=<% pagination.last_page %>"><%= pagination.last_page%></a>
+                <a class="item" href="/manage/articles?page=<%= pagination.last_page %>"><%= pagination.last_page%></a>
             <% } else{ %>
                 <% for(var i = pagination.current + 1;i <= pagination.last_page;++i) {%>
                     <a class="item" href="/manage/articles?page=<%= i %>"><%= i%></a>

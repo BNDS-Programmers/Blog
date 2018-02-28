@@ -15,7 +15,7 @@ config = {
         dialect: "mysql"
     }, 
     manage: {
-        article_pageinate: 10, 
+        article_pageinate: 5, 
         user_pageinate: 10, 
     },
     session_sec: "530ca32adfda2828771cb01a22ae0ab2", 
