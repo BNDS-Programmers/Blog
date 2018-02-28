@@ -6,10 +6,14 @@ const model = db.define('article', {
     content: {type: Sequelize.TEXT, defaultValue: ""}, 
     title: {type: Sequelize.TEXT, defaultValue: ""}
 });
-
-let Model = require('./common')
-class Article extends Model{}
-Article.model = model; // Override the model
-Article.content = ""
-Article.author = 0
-module.exports = Article
+/* Test data 
+*/model.sync().then(() => {
+    for(var i = 1;i < 6;++i){
+        model.findOrCreate({
+            where: { title: `Test ${i}` }, defaults: {
+                author: 1
+            }
+        });
+    }
+})
+module.exports = model

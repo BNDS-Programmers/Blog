@@ -10,20 +10,17 @@ const model = db.define('user', {
     email: {type: Sequelize.STRING, validate: {isEmail: true, notEmpty: true}}, 
     password: {type: Sequelize.STRING, defaultValue: ""}, 
 })
-
-class User extends require('./common'){}
-User.model = model
-User.model.sync().then(()=>{
+model.sync().then(()=>{
     const crypto = require('crypto');
     const salt = global.config.passwd_salt;
     for(let name in global.config.admins){
         let passwd = salt + global.config.admins[name];
         let actual = crypto.createHash('md5').update(passwd).digest('hex')
-        User.model.findOrCreate({where: {nickname: name}, defaults: {
+        model.findOrCreate({where: {nickname: name}, defaults: {
             first_name: name, 
             last_name: name, 
             user_group: "S", 
             email: "admin@admin.xyz", password: actual}});
     }
 })
-module.exports = User;
+module.exports = model;

@@ -1,9 +1,44 @@
-<% include header %>
-<div class="ui main container">
+<% include manage_menu %>
+<div class="padding ui main container">
+    </br>
     <div class="ui animated button" tabindex="0" style="width:90px;left:50%;top:50%">
         <div class="hidden content">New Article</div>
         <div class="visible content">
             <i class="add icon"></i>
         </div>
     </div>
+    <table class="ui compact selectable celled definition table">
+        <thead>
+            <tr>
+                <th></th>
+                <th style="text-align: center">#</th>
+                <th style="text-align: center">Title</th>
+                <th style="text-align: center">Author</th>
+                <th style="text-align: center">Time Created</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% if(art_cnt === 0){ %>
+                <tr>
+                    <td colspan="5" style="text-align: center">
+                        <h4> Nothing Exists </h4>
+                    </td>
+                </tr>
+            <% }else{ %>
+                <% for(var i = 0;i < art_cnt;i += 1){ %>
+                    <tr>
+                        <td class="collapsing">
+                            <div class="ui fitted slider checkbox">
+                                <input type="checkbox" id="chk<%= i%>"> <label></label>
+                            </div>
+                        </td>
+                        <td><%= i%></td>
+                        <td><%= data[i].title%></td>
+                        <td><%= data[i].author%></td>
+                        <td><%= data[i].time_create%></td>
+                    </tr>
+                <% } %>
+            <% } %>
+        </tbody>
+    </table>
 </divs>

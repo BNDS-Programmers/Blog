@@ -5,6 +5,8 @@ const json = require('koa-json')
 const onerror = require('koa-onerror')
 const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger')
+const csrf = require('koa-csrf')
+const session = require('koa-session')
 
 const index = require('./routes/index')
 const users = require('./routes/users')
@@ -14,12 +16,31 @@ global.config = require('./config')
 // error handler
 onerror(app)
 
+// Config session
+app.keys = [global.config.session_sec]
+let sessionConf = {
+  secret: global.config.session_sec,
+  cookie: {},
+  rolling: false,
+  saveUninitialized: true,
+  resave: true
+}
+app.use(session(sessionConf, app));
+
 // middlewares
 app.use(bodyparser({
   enableTypes:['json', 'form', 'text']
 }))
 app.use(json())
 app.use(logger())
+app.use(new csrf({
+  invalidSessionSecretMessage: 'Invalid session secret',
+  invalidSessionSecretStatusCode: 403,
+  invalidTokenMessage: 'Invalid CSRF token',
+  invalidTokenStatusCode: 403,
+  excludedMethods: ['GET', 'HEAD', 'OPTIONS'],
+  disableQuery: false
+}));
 app.use(require('koa-static')(__dirname + '/static'))
 
 app.use(views(__dirname + '/views', {
@@ -57,6 +78,9 @@ global.blog = {
   loadApp(name){
     return require(`./app/${name}`);
   }, 
+  loadModule(name){
+    return require(`./modules/${name}`);
+  },
   init(){
     this.connectDB();
   }, 
