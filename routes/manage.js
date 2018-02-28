@@ -7,11 +7,19 @@ router.get('/', async (ctx, next) => {
 router.get('/articles', async (ctx, next) => {
     const article = global.blog.loadModel('article');
     const user = global.blog.loadModel('user');
-    await article.findAll().then(async (ret) => {
+    const ArticleSnap = global.blog.loadModule('article_snap');
+    let get_param = ctx.query;
+    let page = get_param.page;
+    let pageinate = global.config.manage.article_pageinate;
+    let article_cnt = 0;
+    await article.findAll().then((ret) => article_cnt = ret.length);
+    if(typeof page === 'undefined') page = 1;
+    else if(page < 1) page = 1;
+    else if (page > article_cnt / pageinate + 1) Math.ceil(article_cnt / pageinate);
+    await article.findAll({offset: pageinate * (page - 1), limit: pageinate}).then(async (ret) => {
         let dict_render = require('../modules/user_agent_snap').response(ctx, "article", '', "Articles");
         var cnt = 0;
         dict_render.data = [];
-        /*user.findById(ret[i].author).toJSON().fulfillmentValue.nickname*/
         for (var i = 0; i < ret.length; ++i) {
             var author = undefined;
             await user.findById(ret[i].author).then((ans) => author = ans);
@@ -20,6 +28,11 @@ router.get('/articles', async (ctx, next) => {
                 author: author.nickname,
                 time_create: ret[i].createdAt.toLocaleDateString(),
             });
+        }
+        dict_render.pagination = {
+            current: parseInt(page), 
+            last_page: Math.ceil(article_cnt / pageinate), 
+            item_each: pageinate
         }
         dict_render.art_cnt = ret.length;
         await ctx.render('manage_articles', dict_render);

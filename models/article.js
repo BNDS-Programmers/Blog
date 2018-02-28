@@ -8,7 +8,7 @@ const model = db.define('article', {
 });
 /* Test data 
 */model.sync().then(() => {
-    for(var i = 1;i < 6;++i){
+    for(var i = 1;i < 30;++i){
         model.findOrCreate({
             where: { title: `Test ${i}` }, defaults: {
                 author: 1

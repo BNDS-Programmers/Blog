@@ -1,12 +1,6 @@
 <% include manage_menu %>
 <div class="padding ui main container">
     </br>
-    <div class="ui animated button" tabindex="0" style="width:90px;left:50%;top:50%">
-        <div class="hidden content">New Article</div>
-        <div class="visible content">
-            <i class="add icon"></i>
-        </div>
-    </div>
     <table class="ui compact selectable celled definition table">
         <thead>
             <tr>
@@ -28,17 +22,33 @@
                 <% for(var i = 0;i < art_cnt;i += 1){ %>
                     <tr>
                         <td class="collapsing">
-                            <div class="ui fitted slider checkbox">
+                            <div class="ui fitted checkbox">
                                 <input type="checkbox" id="chk<%= i%>"> <label></label>
                             </div>
                         </td>
-                        <td><%= i%></td>
-                        <td><%= data[i].title%></td>
-                        <td><%= data[i].author%></td>
-                        <td><%= data[i].time_create%></td>
+                        <td style="text-align: center"><%= 1+i+(pagination.current-1)*pagination.item_each%></td>
+                        <td style="text-align: center"><%= data[i].title%></td>
+                        <td style="text-align: center"><%= data[i].author%></td>
+                        <td style="text-align: center"><%= data[i].time_create%></td>
                     </tr>
                 <% } %>
             <% } %>
         </tbody>
+        <tfoot class="full-width">
+            <tr>
+                <th></th>
+                <th colspan="4">
+                    <div class="ui right floated animated fade green button" tabindex="0">
+                        <div class="hidden content">New</div>
+                        <div class="visible content">
+                            <i class="add icon"></i>
+                        </div>
+                    </div>
+                    <div class="ui small button">Select All </div>
+                    <div class="ui small disabled button">Delete</div>
+                </th>
+            </tr>
+        </tfoot>
     </table>
+    <% include paginator %>
 </divs>

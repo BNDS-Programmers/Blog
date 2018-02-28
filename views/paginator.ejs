@@ -1,0 +1,54 @@
+<div style="text-align: center;">
+    <div class="ui pagination menu">
+        <a class="<% if(pagination.current === 1) { %> disabled <% } %> icon item" <% if(pagination.current !== 1) { %> href="/manage/articles?page=1" <% } %> >
+        <i class="angle double left icon"></i></a>
+
+        <a class="<% if(pagination.current === 1) { %> disabled <% } %> icon item" <% if(pagination.current !== 1) { %> href="/manage/articles?page=<%= pagination.current - 1%>" <% } %> >
+        <i class="angle left icon"></i></a>
+        <%
+            let left = pagination.current - 1;
+            let right = pagination.last_page - pagination.current;
+            let left_start = 1;
+            let right_start = right;
+            let rem_left = false;
+            let rem_right = false;
+            if(left >= 5){
+                left_start = pagination.current - 5;
+                rem_left = true;
+            }
+            if(right >= 5){
+                right_start = pagination.current + 5;
+                rem_right = true;
+            }
+            if(rem_left){ %>
+                <a class="item" href="/manage/articles?page=1">1</a>
+                <a class="disabled item">...</a>
+                <% for(var i = left_start;i < pagination.current;++i) { %>
+                    <a class="item" href="/manage/articles?page= <%= i %>"><%= i %></a>
+                <% } %>
+            <% } else { %>
+                <% for(var i = 1;i < pagination.current;++i) {%>
+                    <a class="item" href="/manage/articles?page=<%= i %>"><%= i%></a>
+                <% } %>
+                <a class="active item" href="/manage/articles?page=<%= pagination.current%>"><%= pagination.current%></a>
+            <% } %>
+            <% if(pagination.current !== 1 && rem_left) {%>
+                <a class="active item" href="/manage/articles?page=<%= pagination.current%>"><%= pagination.current%></a>
+            <% } %>
+            <% if(rem_right) {%>
+                <% for(var i = pagination.current + 1;i <= right_start;++i) {%>
+                    <a class="item" href="/manage/articles?page=<%= i %>"><%= i%></a>
+                <% } %>
+                <a class="disabled item">...</a>
+                <a class="item" href="/manage/articles?page=<% pagination.last_page %>"><%= pagination.last_page%></a>
+            <% } else{ %>
+                <% for(var i = pagination.current + 1;i <= pagination.last_page;++i) {%>
+                    <a class="item" href="/manage/articles?page=<%= i %>"><%= i%></a>
+                <% } %>
+            <% } %>
+        <a class="<% if(pagination.current === pagination.last_page) { %> disabled <% } %> icon item" <% if(pagination.current !== pagination.last_page) { %> href="/manage/articles?page=<%= pagination.current + 1%>" <% } %> >
+        <i class="angle right icon"></i></a>
+        <a class="<% if(pagination.current === pagination.last_page) { %> disabled <% } %> icon item" <% if(pagination.current !== pagination.last_page) { %> href="/manage/articles?page=<%= pagination.last_page%>" <% } %> >
+        <i class="angle double right icon"></i></a>
+    </div>
+</div>

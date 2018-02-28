@@ -14,6 +14,10 @@ config = {
         database: "blog", 
         dialect: "mysql"
     }, 
+    manage: {
+        article_pageinate: 10, 
+        user_pageinate: 10, 
+    },
     session_sec: "530ca32adfda2828771cb01a22ae0ab2", 
     passwd_salt: "blog_xxxx", 
     host: "localhost", 
