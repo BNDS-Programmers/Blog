@@ -4,7 +4,9 @@ const db = global.blog.db;
 const model = db.define('article', {
     author: { type: Sequelize.INTEGER, defaultValue: 0 }, 
     content: {type: Sequelize.TEXT, defaultValue: ""}, 
-    title: {type: Sequelize.TEXT, defaultValue: ""}
+    title: {type: Sequelize.TEXT, defaultValue: ""}, 
+    tag: {type: Sequelize.STRING, defaultValue: ""}, 
+    preface: {type: Sequelize.TEXT, defaultValue: ""}
 });
 /* Test data 
 */model.sync().then(() => {

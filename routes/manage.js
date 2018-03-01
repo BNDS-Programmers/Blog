@@ -39,6 +39,34 @@ router.get('/articles', async (ctx, next) => {
         dict_render.art_cnt = ret.length;
         await ctx.render('manage_articles', dict_render);
     });
+});
+
+router.get('/articles/create', async (ctx, next) => {
+    let dict_render = blog.loadModule('user_agent_snap').response(ctx, "article_create", 'Create an Article', '');
+    await ctx.render('article_create', dict_render);
+});
+
+router.post('/upload', async(ctx, next) => {
+    const fs = require('fs');
+    const crypto = require('crypto');
+    let uuid = crypto.createHash('md5').update('' + Date.now()).digest('hex');
+    let file_data = ctx.request.body.upload_file;
+    let file_type = ctx.request.body.file_type;
+    let file_path = `/upload/images/${uuid}.${file_type}`
+    await fs.writeFile(file_path, file_data, (err) => {
+        if(err){
+            blog.log('Error while uploding ' + uuid);
+            ctx.body = {
+                success: false
+            }
+        }else{
+            blog.log(`${uuid}.${file_type} written!`);
+            ctx.body = {
+                success: true, 
+                file_path: config.url + file_path
+            }
+        }
+    });
 })
 
 module.exports = router;

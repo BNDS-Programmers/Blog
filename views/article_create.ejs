@@ -1,0 +1,80 @@
+<% include manage_menu %>
+<div class="ui container">
+    <form class="ui form">
+        <div class="field">
+            <label>Title</label>
+            <input type="text" name="title" id="title" placeholder="Enter Title...">
+        </div>
+        <div class="field">
+            <label>Tags</label>
+            <div class="ui right labeled left icon input">
+                <i class="tags icon"></i>
+                <input type="text" name="tags" placeholder="Enter Tag...">
+                <a class="ui tag label">
+                    Add Tag
+                </a>
+            </div>
+        </div>
+        <div class="ui main container">
+            <textarea id="editor" autofocus></textarea>
+        </div>
+    </form>
+    <div style="padding: 20px;" align="center"><button id="submit" class="ui primary button">Post Article</button></div>
+    <div class="ui basic modal">
+        <div class="ui icon header">
+            <i class="archive icon"></i>
+            Post New Article?
+        </div>
+        <div class="content" style="text-align: center;">
+            <h4>Congrats for finishing a new article! Click "Yes" to submit a your new article!</h4>
+        </div>
+        <div class="actions">
+            <div class="ui red basic cancel inverted button">
+                <i class="remove icon"></i>
+                    No
+            </div>
+            <div class="ui green ok inverted button">
+                <i class="checkmark icon"></i>
+                    Yes
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+        $(document).ready(function(){
+            let editor = new Simditor({
+                textarea: $('#editor'), 
+                /*
+                upload: {
+                    url: '/manage/upload', 
+                    params: {file_type: 'jpg', _csrf: document.head.getAttribute('data-csrf-token')}, 
+                    fileKey: 'upload_file', 
+                    leaveConfirm: 'Uploading is in progress, are you sure to leave this page?', 
+                    connectionCount: 3
+                }, */
+                toolbar: [
+                        'title',
+                        'bold',
+                        'italic',
+                        'underline',
+                        'strikethrough',
+                        'fontScale',
+                        'color',
+                        'ol',
+                        'ul',
+                        'blockquote',
+                        'code',
+                        'table',
+                        'link',
+                        'image',
+                        'hr',
+                        'indent',
+                        'outdent',
+                        'alignment'
+                    ]
+            })
+            $('#submit').click(() => {
+                $('.ui.basic.modal').modal('show');
+            });
+        });
+    </script>

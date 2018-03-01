@@ -29,7 +29,8 @@
     "mysql2": "^1.5.2",
     "pug": "^2.0.0-rc.1",
     "semantic-ui": "^2.3.0",
-    "sequelize": "^4.34.0"
+    "sequelize": "^4.34.0",
+    "simditor": "^2.3.6"
   },
   "devDependencies": {
     "nodemon": "^1.8.1"
