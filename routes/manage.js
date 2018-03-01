@@ -1,7 +1,8 @@
 const router = require('koa-router')();
 router.prefix('/manage')
 router.get('/', async (ctx, next) => {
-    await ctx.render('manage_menu', {current: null, title: global.config.title, subtitle: 'Management'});
+    let dict_render = global.blog.loadModule('user_agent_snap').response(ctx, null, '', 'Management');
+    await ctx.render('manage_menu', dict_render);
 })
 
 router.get('/articles', async (ctx, next) => {
