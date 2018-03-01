@@ -1,6 +1,6 @@
 config = {
     title: "Blog", 
-    description: "My blog", 
+    subtitle: "My blog", 
     author: "Your Name", 
     admins: {
         root: "root"
