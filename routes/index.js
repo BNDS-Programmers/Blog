@@ -2,12 +2,13 @@ const router = require('koa-router')();
 // const article = global.blog.loadModel('article');
 
 router.get('/', async (ctx, next) => {
+  const UserAgentSnap = global.blog.loadModule('user_agent_snap');
   const article = global.blog.loadModel('article');
   var data = [];
   console.log(article.findAll())
   await article.findAll().then(async (ret) => {
     data = ret
-    let dict_render = { title: global.config.title, subtitle: global.config.description };
+    let dict_render = UserAgentSnap.response(ctx, 'home', '', '');
     dict_render.article_list = []
     for(var i = 0;i < data.length; ++i) {
       dict_render.article_list.push({
@@ -17,7 +18,6 @@ router.get('/', async (ctx, next) => {
         update: data[i].updatedAt.toLocaleDateString(),
       })
     }
-    dict_render.current = 'home';
     dict_render.art_list_length = data.length;
     console.log(dict_render)
     await ctx.render('index', dict_render);
