@@ -47,16 +47,12 @@
 </div>
 <script>
         $(document).ready(function(){
+            $('#title-input').attr('value', "<%= article.title%>");
+            $('#tag-input').attr('value', "<%= article.tag%>");
+            $('#preface').attr('value', "<%= article.preface%>");
+            $('#editor').attr('value', "<%= article.content%>");
             let editor = new Simditor({
                 textarea: $('#editor'), 
-                /*
-                upload: {
-                    url: '/manage/upload', 
-                    params: {file_type: 'jpg', _csrf: document.head.getAttribute('data-csrf-token')}, 
-                    fileKey: 'upload_file', 
-                    leaveConfirm: 'Uploading is in progress, are you sure to leave this page?', 
-                    connectionCount: 3
-                }, */
                 toolbar: [
                         'title',
                         'bold',
@@ -88,6 +84,7 @@
                 $('.ui.basic.modal').modal('show');
             });
             $('#submit_form').click(() => {
+                $('#submit').attr('class', 'ui primary loading button')
                 let post_data = {};
                 let form_data = $('#article_form').serializeArray();
                 for(let i in form_data) {
@@ -105,8 +102,16 @@
                 post_data.content = content;
                 post_data.preface = $('#preface').val();
                 post_data._csrf = document.head.getAttribute('data-csrf-token');
+                post_data.submit_type = "<%= article.submit_type%>";
                 $.post("/manage/articles/submit", post_data, function(data){
-                    console.log(data);
+                    if(typeof data.success !== 'undefined' && data.success === true) {
+                        $('#submit').attr('class', 'positive ui button');
+                        $('#submit').text('Success');
+                        let redirect = data.redirect;
+                        setTimeout(() => {
+                            window.location.href = "<%= global.config.url %>" + redirect;
+                        }, 2000);
+                    }
                 });
                 return;
             });

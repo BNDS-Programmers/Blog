@@ -44,6 +44,13 @@ router.get('/articles', async (ctx, next) => {
 
 router.get('/articles/create', async (ctx, next) => {
     let dict_render = blog.loadModule('user_agent_snap').response(ctx, "article_create", 'Create an Article', '');
+    dict_render.article = {
+        title: '', 
+        tag: '', 
+        preface: '', 
+        content: '', 
+        submit_type: 'create'
+    };
     await ctx.render('article_create', dict_render);
 });
 

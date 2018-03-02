@@ -19,7 +19,7 @@ config = {
         user_pageinate: 10, 
     },
     session_sec: "530ca32adfda2828771cb01a22ae0ab2", 
-    url: 'localhost:4000', 
+    url: 'http://localhost:4000', 
     passwd_salt: "blog_xxxx", 
     host: "localhost", 
     port: 4000, 
