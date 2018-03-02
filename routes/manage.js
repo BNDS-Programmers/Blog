@@ -27,6 +27,7 @@ router.get('/articles', async (ctx, next) => {
             var author = undefined;
             await user.findById(ret[i].author).then((ans) => author = ans);
             dict_render.data.push({
+                id: ret[i].id, 
                 title: ret[i].title,
                 author: author.nickname,
                 time_create: ret[i].createdAt.toLocaleDateString(),
@@ -70,6 +71,26 @@ router.post('/articles/submit', async (ctx, next) => {
             redirect: '/'
         }
     })
+});
+
+router.post('/articles/delete', async (ctx, next) => {
+    const post_data = ctx.request.body;
+    if(typeof post_data.delete_list === 'undefined') {
+        ctx.body = {
+            success: false, 
+            errono: -1, 
+            redirect: '/manage/articles'
+        }
+    }else{
+        const article = global.blog.loadModel('article');
+        for(let id in post_data.delete_list) {
+            article.destroy({where: {id: post_data.delete_list[id]}});
+        }
+        ctx.body = {
+            success: true, 
+            redirect: '/manage/articles', 
+        }
+    }
 });
 
 router.post('/upload', async(ctx, next) => {

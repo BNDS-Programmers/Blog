@@ -84,7 +84,6 @@
                 $('.ui.basic.modal').modal('show');
             });
             $('#submit_form').click(() => {
-                $('#submit').attr('class', 'ui primary loading button')
                 let post_data = {};
                 let form_data = $('#article_form').serializeArray();
                 for(let i in form_data) {
@@ -98,6 +97,7 @@
                     $('#tag-field').attr('class', 'field error');
                     return;
                 }
+                $('#submit').attr('class', 'ui primary loading button')
                 let content = $('#editor').val();
                 post_data.content = content;
                 post_data.preface = $('#preface').val();

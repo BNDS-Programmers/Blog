@@ -23,7 +23,7 @@
                     <tr>
                         <td class="collapsing">
                             <div class="ui fitted checkbox">
-                                <input type="checkbox" onchange="check_change(this)" id="chk<%= i%>"> <label></label>
+                                <input type="checkbox" name="<%= data[i].id%>" onchange="check_change(this)" id="chk<%= i%>"> <label></label>
                             </div>
                         </td>
                         <td style="text-align: center"><%= 1+i+(pagination.current-1)*pagination.item_each%></td>
@@ -45,11 +45,29 @@
                         </div>
                     </div>
                     <div id="btn_select_all" class="ui small toggle button">Select All </div>
-                    <div class="ui small disabled button">Delete</div>
+                    <div id="btn_delete" class="ui small disabled red button">Delete</div>
                 </th>
             </tr>
         </tfoot>
     </table>
+    <div class="ui mini modal">
+        <i class="close icon"></i>
+        <div class="header">
+            Delete Confirmation
+        </div>
+        <div class="content">
+            This action cannot be reverted! Any deleted article cannot be restored!
+        </div>
+        <div class="actions">
+        <div class="ui red cancel deny button">
+            Wait!
+        </div>
+        <div class="ui positive ok right labeled icon button">
+            Sure!
+            <i class="checkmark icon"></i>
+        </div>
+    </div>
+</div>
     <% include paginator %>
 </divs>
 <script type="text/javascript">
@@ -65,6 +83,7 @@
         $('#btn_select_all').text('Disselect All');
     }
     function select_all() {
+        $('#btn_delete').attr('class', 'ui small red button');
         $('input:checkbox').each(function() {
             $(this).attr('checked', true);
             $(this).parent().attr('class', 'ui checked fitted checkbox');
@@ -73,6 +92,7 @@
         btn_disselect_all();
     }
     function dis_select_all() {
+        $('#btn_delete').attr('class', 'ui small disabled red button');
         $('input:checkbox').each(function () {
             $(this).attr('checked',false);
             $(this).parent().attr('class', 'ui fitted checkbox');
@@ -86,8 +106,12 @@
         if(origin.checked){
             chk_cnt += 1;
         }else{
-            
             chk_cnt -= 1;
+        }
+        if(chk_cnt > 0) {
+            $('#btn_delete').attr('class', 'ui small red button');
+        }else{
+            $('#btn_delete').attr('class', 'ui small disabled red button');
         }
         if(chk_cnt === <%= art_cnt%>) {
             btn_disselect_all();
@@ -97,5 +121,27 @@
     }
     $(document).ready(() => {
         $('#btn_select_all').click(() => select_all());
+        $('#btn_delete').click(() => {
+            let delete_list = [];
+            $('input:checkbox').each(function () {
+                if($(this).attr('checked'))
+                    delete_list.push(parseInt($(this).attr('name')));
+            });
+            $('.ui.modal').modal({
+                onApprove: () => {
+                    $.post('/manage/articles/delete', {
+                        delete_list: delete_list, 
+                        _csrf: document.head.getAttribute('data-csrf-token')
+                    }, (data) => {
+                        if(data.success === true) {
+                            window.location.reload();
+                        }else{
+                            alert('Error while deleting data');
+                            window.location.reload();
+                        }
+                    });
+                }
+            }).modal('show');
+        })
     });
 </script>
