@@ -23,7 +23,7 @@
                     <tr>
                         <td class="collapsing">
                             <div class="ui fitted checkbox">
-                                <input type="checkbox" id="chk<%= i%>"> <label></label>
+                                <input type="checkbox" onchange="check_change(this)" id="chk<%= i%>"> <label></label>
                             </div>
                         </td>
                         <td style="text-align: center"><%= 1+i+(pagination.current-1)*pagination.item_each%></td>
@@ -44,7 +44,7 @@
                             <i class="add icon"></i>
                         </div>
                     </div>
-                    <div class="ui small button">Select All </div>
+                    <div id="btn_select_all" class="ui small toggle button">Select All </div>
                     <div class="ui small disabled button">Delete</div>
                 </th>
             </tr>
@@ -52,3 +52,50 @@
     </table>
     <% include paginator %>
 </divs>
+<script type="text/javascript">
+    var chk_cnt = 0;
+    function btn_select_all() {
+        $('#btn_select_all').unbind();
+        $('#btn_select_all').click(() => select_all());
+        $('#btn_select_all').text('Select All');
+    }
+    function btn_disselect_all() {
+        $('#btn_select_all').unbind();
+        $('#btn_select_all').click(() => dis_select_all());
+        $('#btn_select_all').text('Disselect All');
+    }
+    function select_all() {
+        $('input:checkbox').each(function() {
+            $(this).attr('checked', true);
+            $(this).parent().attr('class', 'ui checked fitted checkbox');
+            chk_cnt = <%= art_cnt%>;
+        });
+        btn_disselect_all();
+    }
+    function dis_select_all() {
+        $('input:checkbox').each(function () {
+            $(this).attr('checked',false);
+            $(this).parent().attr('class', 'ui fitted checkbox');
+            chk_cnt = 0;
+        });
+        btn_select_all();
+    }
+    function check_change(origin){
+        // origin.setAttribute("checked", origin.checked);
+        $('#' + origin.getAttribute('id')).attr('checked', origin.checked);
+        if(origin.checked){
+            chk_cnt += 1;
+        }else{
+            
+            chk_cnt -= 1;
+        }
+        if(chk_cnt === <%= art_cnt%>) {
+            btn_disselect_all();
+        }else{
+            btn_select_all();
+        }
+    }
+    $(document).ready(() => {
+        $('#btn_select_all').click(() => select_all());
+    });
+</script>

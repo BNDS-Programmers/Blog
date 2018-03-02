@@ -1,21 +1,26 @@
 <% include manage_menu %>
 <div class="ui container">
-    <form class="ui form">
-        <div class="field">
+    <form class="ui form" method="POST" action="/manage/article/submit" id="article_form" name="article_form">
+        <div class="field" id="title-field">
             <label>Title</label>
-            <input type="text" name="title" id="title" placeholder="Enter Title...">
+            <input type="text" name="title" id="title-input" placeholder="Enter Title...">
         </div>
-        <div class="field">
+        <div class="field" id="tag-field">
             <label>Tags</label>
             <div class="ui right labeled left icon input">
                 <i class="tags icon"></i>
-                <input type="text" name="tags" placeholder="Enter Tag...">
+                <input type="text" name="tags" id="tag-input" placeholder="Enter Tag...">
                 <a class="ui tag label">
                     Add Tag
                 </a>
             </div>
         </div>
-        <div class="ui main container">
+        <div class="field" id="preface-field">
+            <label>Description</label>
+            <textarea id="preface" autofocus></textarea>
+        </div>
+        <div class="field" id="content-field">
+            <label>Content</label>
             <textarea id="editor" autofocus></textarea>
         </div>
     </form>
@@ -33,7 +38,7 @@
                 <i class="remove icon"></i>
                     No
             </div>
-            <div class="ui green ok inverted button">
+            <div id="submit_form" class="ui green ok inverted button">
                 <i class="checkmark icon"></i>
                     Yes
             </div>
@@ -73,8 +78,37 @@
                         'alignment'
                     ]
             })
+            $('#title-input').on('input', () => {
+                $('#title-field').attr('class', 'field');
+            })
+            $('#tag-input').on('input', () => {
+                $('#tag-field').attr('class', 'field');
+            })
             $('#submit').click(() => {
                 $('.ui.basic.modal').modal('show');
+            });
+            $('#submit_form').click(() => {
+                let post_data = {};
+                let form_data = $('#article_form').serializeArray();
+                for(let i in form_data) {
+                    post_data[form_data[i].name] = form_data[i].value;
+                }
+                if(post_data.title === '') {
+                    $('#title-field').attr('class', 'field error');
+                    return;
+                }
+                if(post_data.tags === '') {
+                    $('#tag-field').attr('class', 'field error');
+                    return;
+                }
+                let content = $('#editor').val();
+                post_data.content = content;
+                post_data.preface = $('#preface').val();
+                post_data._csrf = document.head.getAttribute('data-csrf-token');
+                $.post("/manage/articles/submit", post_data, function(data){
+                    console.log(data);
+                });
+                return;
             });
         });
     </script>

@@ -47,6 +47,24 @@ router.get('/articles/create', async (ctx, next) => {
     await ctx.render('article_create', dict_render);
 });
 
+router.post('/articles/submit', async (ctx, next) => {
+    const post_data = ctx.request.body;
+    console.log(post_data);
+    const article = global.blog.loadModel('article');
+    await article.create({
+        title: post_data.title, 
+        tags: post_data.tags, 
+        content: post_data.content, 
+        author: 1, 
+        preface: post_data.preface
+    }).then((ret) => {
+        ctx.body = {
+            success: true, 
+            redirect: '/'
+        }
+    })
+});
+
 router.post('/upload', async(ctx, next) => {
     const fs = require('fs');
     const crypto = require('crypto');
