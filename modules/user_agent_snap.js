@@ -6,6 +6,9 @@ const UserAgentSnap = {
         dict_render.title = title === ''? global.config.title: title;
         dict_render.subtitle = subtitle === ''? global.config.subtitle: subtitle;
         return dict_render;
+    }, 
+    paginate(dict_render, current, last, paginate) {
+        return Object.assign({current: current, last_page: last, item_each: paginate}, dict_render);
     }
 }
 
