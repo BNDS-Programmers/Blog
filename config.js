@@ -2,10 +2,12 @@ config = {
     title: "Blog", 
     subtitle: "My blog", 
     author: "Your Name", 
+    article_per_page: 10, 
     admins: {
         root: "root"
     }, 
     favicon: null, 
+    article_cover_count: 14, 
     db: {
         host: "localhost",
         port: 3306,  

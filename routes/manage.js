@@ -18,7 +18,6 @@ router.get('/articles', async (ctx, next) => {
     await article.findAll().then((ret) => article_cnt = ret.length);
     if(page < 1) page = 1;
     else if (page > article_cnt / pageinate + 1) page = Math.ceil(article_cnt / pageinate);
-    console.log(page);
     await article.findAll({offset: pageinate * (page - 1), limit: pageinate}).then(async (ret) => {
         let dict_render = require('../modules/user_agent_snap').response(ctx, "article", '', "Articles");
         var cnt = 0;
@@ -36,7 +35,8 @@ router.get('/articles', async (ctx, next) => {
         dict_render.pagination = {
             current: parseInt(page), 
             last_page: Math.ceil(article_cnt / pageinate), 
-            item_each: pageinate
+            item_each: pageinate, 
+            href: '/manage/articles'
         }
         dict_render.art_cnt = ret.length;
         await ctx.render('manage_articles', dict_render);

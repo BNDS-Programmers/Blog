@@ -1,7 +1,31 @@
 <% include header %>
 <% if(art_list_length !== 0) {%>
 <div class="ui main container">
-    
+    <div class="ui divided items">
+    <% for(var i = 0;i < art_list_length;++i) {%>
+        <div class="item" style="width: 70%;margin: 0 auto;">
+            <div class="image">
+                <img src= <%= `/images/material-${article_list[i].cover}.png` %> >
+            </div>
+            <div class="content">
+                <a class="header" style="font-size: 20px" href="/articles/<%= article_list[i].id%>"><%= article_list[i].title %></a>
+                <div class="meta">
+                    <span class="cinema">created at <%= article_list[i].create %> by <%= article_list[i].author %></span>
+                </div>
+                <div class="description">
+                <p><%= article_list[i].preface%></p>
+                </div>
+                <div class="extra">
+                <% for(var j = 0;j < article_list[i].tags.length;++j) { %>
+                    <div class="ui label"><%= article_list[i].tag[j] %></div>
+                <% } %>
+                </div>
+            </div>
+        </div>
+    <% } %>
+    <% include paginator %>
+    </div>
+    <br><br>
 </div>
 <% }else{ %>
     <span style="text-align: center">
