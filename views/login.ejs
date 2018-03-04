@@ -1,0 +1,71 @@
+<% include header %>
+<div class="ui main container">
+    <div align="center"><h2>Login</h2></div><br>
+    <div class="ui center aligned middle aligned grid">
+        <div class="row">
+            <div class="column" style="width: 40%">
+                <div class="ui large form" action="/manage/login" method="POST">
+                    <div class="ui raised segment">
+                        <div id="message" class="ui error message">
+                            <i class="close icon"></i>
+                            <div id="message-header" class="header">
+                            </div>
+                            <div id="message-content" class="content">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="ui left icon input">
+                                <input id="username" type="text" placeholder="Username">
+                                <i class="user icon"></i>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="ui left icon input">
+                                <input id="password" type="text" placeholder="Password">
+                                <i class="key icon"></i>
+                            </div>
+                        </div>
+                        <button id="submit-form" class="ui primary button" type="submit">Submit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(() => {
+        $("#submit-form").click(() => {
+            let username = $("#username").val();
+            let passwd = $("#password").val();
+            let post_data = {
+                username: username, 
+                password: passwd, 
+                _csrf: document.head.getAttribute('data-csrf-token')
+            };
+            $.ajax({
+                url: '/manage/login', 
+                type: 'POST', 
+                data: post_data, 
+                success: data => {
+                    if(data.success && data.code === 0) {
+                        $("#message").attr("class", "ui positive message");
+                        $("#message").attr("style", "display: block");
+                        $("#message-header").text('Welcome Back!');
+                        $("#message-content").text('redirecting to manage page');
+                        setTimeout(() => {
+                            window.location.href= `<%= global.config.url%>/manage`
+                        }, 2000);
+                    }else if(data.code === 1) {
+                        $("#message-header").text('Error');
+                        $("#message").attr("style", "display: block");
+                        $("#message-content").text('Username not found');
+                    }else if(data.code === 2) {
+                        $("#message-header").text('Error');
+                        $("#message").attr("style", "display: block");
+                        $("#message-content").text('Password is not correct!');
+                    }
+                }
+            })
+        })
+    })
+</script>

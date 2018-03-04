@@ -1,8 +1,62 @@
 const router = require('koa-router')();
 router.prefix('/manage')
 router.get('/', async (ctx, next) => {
-    let dict_render = global.blog.loadModule('user_agent_snap').response(ctx, null, '', 'Management');
-    await ctx.render('manage_menu', dict_render);
+    if(ctx.session.user) {
+        let dict_render = global.blog.loadModule('user_agent_snap').response(ctx, null, '', 'Management');
+        await ctx.render('manage_menu', dict_render);
+    }else{
+        await ctx.redirect('/manage/login');
+    }
+})
+
+router.get('/login', async (ctx, res, next) => {
+    const UserSnap = global.blog.loadModule('user_snap');
+    const UserAgentSnap = global.blog.loadModule('user_agent_snap');
+    if(ctx.session.user) {
+        let username = ctx.session.username;
+        let passwd = ctx.session.password;
+        const result = UserSnap.verify_passwd(username, passwd);
+        if(result.success) {
+            return await ctx.redirect('/manage');
+        }
+    }
+    let dict_render = UserAgentSnap.response(ctx, 'login', '', '- Login');
+    await ctx.render('login', dict_render);
+})
+
+router.post('/login', async (ctx, resp, next) => {
+    const post_data = ctx.request.body;
+    const UserSnap = global.blog.loadModule('user_snap');
+    const User = global.blog.loadModel('user');
+    if(!post_data){
+        ctx.body = {
+            success: false,
+            code: 1
+        }
+    }else{
+        const username = post_data.username;
+        const passwd = post_data.password;
+        if (username === '' && passwd === '') {
+            ctx.body = {
+                success: false, 
+                code: 1
+            }
+        }else{
+            let result = await UserSnap.verify_passwd(username, passwd);
+            if(result.success && result.code === 0) {
+                ctx.session.user = {
+                    username: username, 
+                    password: passwd,
+                }
+            }
+            ctx.body = result;
+        }
+    }
+}); 
+
+router.get('/logout', async (ctx, resp, next) => {
+    ctx.session.user = null;
+    ctx.redirect('/');
 })
 
 router.get('/articles', async (ctx, next) => {

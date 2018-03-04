@@ -23,7 +23,7 @@ router.get('/', async (ctx, next) => {
         cover: Math.max(Math.round(Math.random() * global.config.article_cover_count), 1), 
         title: data[i].title, 
         author: await UserSnap.find_nickname_by_id(data[i].author), 
-        preface: data[i].preface, 
+        preface: data[i].preface === ''?'No Preface QwQ': data[i].preface, 
         create: data[i].createdAt.toLocaleDateString(),
         update: data[i].updatedAt.toLocaleDateString(),
         id: data[i].id, 
