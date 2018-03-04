@@ -20,7 +20,7 @@ router.get('/login', async (ctx, res, next) => {
             return await ctx.redirect('/manage');
         }
     }
-    let dict_render = UserAgentSnap.response(ctx, 'login', '', '- Login');
+    let dict_render = UserAgentSnap.response(ctx, 'login', '', 'Login');
     await ctx.render('login', dict_render);
 })
 
@@ -60,6 +60,9 @@ router.get('/logout', async (ctx, resp, next) => {
 })
 
 router.get('/articles', async (ctx, next) => {
+    if (!ctx.session.user) {
+        return await ctx.redirect('/manage/login')
+    }
     const article = global.blog.loadModel('article');
     const user = global.blog.loadModel('user');
     const ArticleSnap = global.blog.loadModule('article_snap');
@@ -98,6 +101,9 @@ router.get('/articles', async (ctx, next) => {
 });
 
 router.get('/articles/create', async (ctx, next) => {
+    if (!ctx.session.user) {
+        return await ctx.redirect('/manage/login')
+    }
     let dict_render = blog.loadModule('user_agent_snap').response(ctx, "article_create", 'Create an Article', '');
     dict_render.article = {
         title: '', 
