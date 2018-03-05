@@ -1,6 +1,43 @@
 <% include header %>
 <div class="ui main container" style="width: 65%">
+    <div align="center"><h1>Projects</h1></div>
+    <br>
     <div class="ui special cards">
-        
+        <% for(var i = 0;i < global.config.projects.length;++i) {%>
+        <div class="card">
+            <div class="blurring dimmable image">
+                <div class="ui dimmer">
+                    <div class="content">
+                        <div class="center">
+                            <div class="ui inverted button" onclick='window.location.href="<%= global.config.projects[i].url%>"'>View Project</div>
+                        </div>
+                    </div>
+                </div>
+                <% if(global.config.projects[i].image !== '') {%>
+                    <img src="<%= global.config.projects[i].image %>">
+                <% } else {%>
+                    <img src="/images/material-<%= Math.max(Math.round(Math.random() * global.config.article_cover_count), 1) %>.png">
+                <% } %>
+            </div>
+            <div class="content">
+                <a class="header"><%= global.config.projects[i].name %></a>
+                <div class="meta">
+                    <span class="date"><%= global.config.projects[i].description %></span>
+                </div>
+            </div>
+            <div class="extra content">
+                <a><i class="star icon"></i> <%= global.config.projects[i].stars %></a>
+                <a>  </a>
+                <a><i class="fork icon"></i> <%= global.config.projects[i].forks %></a>
+            </div>
+        </div>
+        <% } %>
     </div>
 </div>
+<script type="text/javascript">
+$(document).ready(() => {
+    $('.special.cards .image').dimmer({
+        on: 'hover'
+    });
+})
+</script>

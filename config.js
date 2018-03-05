@@ -20,6 +20,29 @@ config = {
         article_pageinate: 10, 
         user_pageinate: 10, 
     },
+    projects:[{
+            name: 'Blog', 
+            description: 'A common blog system', 
+            url: 'https://github.com/BNDS-Programmers/Blog', 
+            image: '', 
+            stars: 0, 
+            forks: 0
+        }, {
+            name: 'Shiyiquan', 
+            description: 'A club management platform for BNDS', 
+            url: 'https://github.com/AD1024/ShiyiquanEvent', 
+            image: '', 
+            stars: 3, 
+            forks: 0, 
+        }, {
+            name: 'BNDSOJ',
+            description: 'Online Judge for BNDS Computing Contest class',
+            url: 'https://github.com/AD1024/BNDSOJ',
+            image: '',
+            stars: 3,
+            forks: 1, 
+        }
+    ],
     session_sec: "530ca32adfda2828771cb01a22ae0ab2", 
     url: 'http://localhost:4000', 
     passwd_salt: "blog_xxxx", 

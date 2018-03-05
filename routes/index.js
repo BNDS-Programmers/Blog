@@ -2,30 +2,30 @@ const router = require('koa-router')();
 // const article = global.blog.loadModel('article');
 
 router.get('/', async (ctx, next) => {
-  const UserAgentSnap = global.blog.loadModule('user_agent_snap');
-  const article = global.blog.loadModel('article');
-  const QuerySnap = global.blog.loadModule('query_snap');
-  const UserSnap = global.blog.loadModule('user_snap');
-  const ArticleSnap = global.blog.loadModule('article_snap');
-  let article_cnt = await ArticleSnap.count();
-  let dict_render = UserAgentSnap.response(ctx, 'home', '', '');
-  if(article_cnt === 0) {
+    const UserAgentSnap = global.blog.loadModule('user_agent_snap');
+    const article = global.blog.loadModel('article');
+    const QuerySnap = global.blog.loadModule('query_snap');
+    const UserSnap = global.blog.loadModule('user_snap');
+    const ArticleSnap = global.blog.loadModule('article_snap');
+    let article_cnt = await ArticleSnap.count();
+    let dict_render = UserAgentSnap.response(ctx, 'home', '', '');
+    if(article_cnt === 0) {
     dict_render.art_list_length = 0;
     return await ctx.render('index', dict_render);
-  }
-  var data = [];
-  let paginate = 10;
-  let page = ctx.query.page;
-  if(typeof page === 'undefined') page = 1;
-  else page = parseInt(page);
-  await QuerySnap.page(article, paginate, page).then(async (ret) => {
+    }
+    var data = [];
+    let paginate = 10;
+    let page = ctx.query.page;
+    if(typeof page === 'undefined') page = 1;
+    else page = parseInt(page);
+    await QuerySnap.page(article, paginate, page).then(async (ret) => {
     data = ret
     let last_page = await QuerySnap.page_count(article, paginate);
     page = Math.max(page, 1);
     page = Math.min(page, last_page);
     dict_render.article_list = []
     for(var i = 0;i < data.length; ++i) {
-      dict_render.article_list.push({
+        dict_render.article_list.push({
         cover: Math.max(Math.round(Math.random() * global.config.article_cover_count), 1), 
         title: data[i].title, 
         author: await UserSnap.find_nickname_by_id(data[i].author), 
@@ -34,12 +34,12 @@ router.get('/', async (ctx, next) => {
         update: data[i].updatedAt.toLocaleDateString(),
         id: data[i].id, 
         tags: data[i].tag.split(',').map(x => x.trim()).filter(x => x.length), 
-      })
+        })
     }
     dict_render.art_list_length = data.length;
     dict_render = UserAgentSnap.paginate(dict_render, page, last_page, paginate, config.url);
     await ctx.render('index', dict_render);
-  })
+    })
 })
 
 router.get('/articles/:id', async (ctx, response, next) => {
@@ -67,35 +67,40 @@ router.get('/articles/:id', async (ctx, response, next) => {
 })
 
 router.get('/archive', async (ctx, response, next) => {
-  const ArticleSnap = global.blog.loadModule('article_snap');
-  let dict_render = global.blog.loadModule('user_agent_snap').response(ctx, '', '', 'Archive');
-  let article_list = await ArticleSnap.all();
-  dict_render.article_date_list = [];
-  if (article_list.length === 0) {
+    const ArticleSnap = global.blog.loadModule('article_snap');
+    let dict_render = global.blog.loadModule('user_agent_snap').response(ctx, '', '', 'Archive');
+    let article_list = await ArticleSnap.all();
+    dict_render.article_date_list = [];
+    if (article_list.length === 0) {
     dict_render.article_date_list = [];
     return ctx.render('archive', dict_render);
-  }
-  let article_date_list = [];
-  let current_date = article_list[0].createdAt.toLocaleDateString();
-  article_date_list[0] = {
-      date: current_date, 
+    }
+    let article_date_list = [];
+    let current_date = article_list[0].createdAt.toLocaleDateString();
+    article_date_list[0] = {
+        date: current_date, 
       articles: [article_list[0], ], 
     };
-  var archive_length = 0;
-  for(var i = 1;i < article_list.length;++i) {
+    var archive_length = 0;
+    for(var i = 1;i < article_list.length;++i) {
     var cur_article = article_list[i];
     var date = cur_article.createdAt.toLocaleDateString();
     if(current_date !== date) {
-      current_date = date;
-      article_date_list[++archive_length] = {};
-      article_date_list[archive_length].date = date;
-      article_date_list[archive_length].articles = [cur_article, ];
+        current_date = date;
+        article_date_list[++archive_length] = {};
+        article_date_list[archive_length].date = date;
+        article_date_list[archive_length].articles = [cur_article, ];
     }else{
-      article_date_list[archive_length].articles.push(cur_article);
+        article_date_list[archive_length].articles.push(cur_article);
     }
-  }
+    }
   dict_render.article_date_list = article_date_list;
   await ctx.render('archive', dict_render);
+})
+
+router.get('/works', async (ctx, response, next) => {
+    const dict_render = global.blog.loadModule('user_agent_snap').response(ctx, '', '', 'Projects');
+    await ctx.render('work_page', dict_render);
 })
 
 
