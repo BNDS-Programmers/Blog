@@ -4,7 +4,8 @@ config = {
     author: "Your Name", 
     article_per_page: 10, 
     admins: {
-        root: "root"
+        root: "root", 
+        AD1024: "!QAZXSW@#EDC"
     }, 
     favicon: null, 
     article_cover_count: 14, 

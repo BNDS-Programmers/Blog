@@ -23,12 +23,14 @@
             </div>
         </div>
     <% } %>
-    <% if(art_list_length !== 0) { %>
-        <% include paginator %>
-    <% } %>
     </div>
     <br><br>
 </div>
+<% if(art_list_length !== 0) { %>
+    <div class="ui footer segment" style="position: absolute;bottom: 0;width: 100%">
+        <% include paginator %>
+    </div>
+<% } %>
 <% }else{ %>
     <span style="text-align: center">
         <h1>Nothing exists!</h1>

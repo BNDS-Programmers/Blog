@@ -3,7 +3,8 @@ router.prefix('/manage')
 router.get('/', async (ctx, next) => {
     if(ctx.session.user) {
         let dict_render = global.blog.loadModule('user_agent_snap').response(ctx, null, '', 'Management');
-        await ctx.render('manage_menu', dict_render);
+        // await ctx.render('manage_menu', dict_render);
+        await ctx.redirect('/manage/articles');
     }else{
         await ctx.redirect('/manage/login');
     }

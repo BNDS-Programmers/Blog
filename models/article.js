@@ -9,7 +9,7 @@ const model = db.define('article', {
     preface: {type: Sequelize.TEXT, defaultValue: ""}
 });
 /* Test data 
-*/model.sync().then(() => {
+model.sync().then(() => {
     for(var i = 1;i < 30;++i){
         model.findOrCreate({
             where: { title: `Test ${i}` }, defaults: {
@@ -17,5 +17,5 @@ const model = db.define('article', {
             }
         });
     }
-})
+})*/
 module.exports = model
