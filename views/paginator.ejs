@@ -46,9 +46,9 @@
                     <a class="item" href="<%= pagination.href %>?page=<%= i %>"><%= i%></a>
                 <% } %>
             <% } %>
-        <a class="<% if(pagination.current === pagination.last_page) { %> disabled <% } %> icon item" <% if(pagination.current !== pagination.last_page) { %> href="/manage/articles?page=<%= pagination.current + 1%>" <% } %> >
+        <a class="<% if(pagination.current === pagination.last_page) { %> disabled <% } %> icon item" <% if(pagination.current !== pagination.last_page) { %> href="<%= pagination.href %>?page=<%= pagination.current + 1%>" <% } %> >
         <i class="angle right icon"></i></a>
-        <a class="<% if(pagination.current === pagination.last_page) { %> disabled <% } %> icon item" <% if(pagination.current !== pagination.last_page) { %> href="/manage/articles?page=<%= pagination.last_page%>" <% } %> >
+        <a class="<% if(pagination.current === pagination.last_page) { %> disabled <% } %> icon item" <% if(pagination.current !== pagination.last_page) { %> href="<%= pagination.href %>?page=<%= pagination.last_page%>" <% } %> >
         <i class="angle double right icon"></i></a>
     </div>
 </div>
