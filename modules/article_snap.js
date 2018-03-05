@@ -1,8 +1,8 @@
 const Model = global.blog.loadModel('article');
 global.ArticleSnap = {
-    async all(){
+    async all(order=[['createdAt', 'DESC']]){
         let ans = [];
-        await Model.findAll().then(async (ret) => {
+        await Model.findAll({order: order}).then(async (ret) => {
             ans = ret;
         });
         return ans;

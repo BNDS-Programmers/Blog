@@ -59,5 +59,37 @@ router.get('/articles/:id', async (ctx, response, next) => {
   }
 })
 
+router.get('/archive', async (ctx, response, next) => {
+  const ArticleSnap = global.blog.loadModule('article_snap');
+  let dict_render = global.blog.loadModule('user_agent_snap').response(ctx, '', '', 'Archive');
+  let article_list = await ArticleSnap.all();
+  dict_render.article_date_list = [];
+  if (article_list.length === 0) {
+    dict_render.article_date_list = [];
+    return ctx.render('archive', dict_render);
+  }
+  let article_date_list = [];
+  let current_date = article_list[0].createdAt.toLocaleDateString();
+  article_date_list[0] = {
+      date: current_date, 
+      articles: [article_list[0], ], 
+    };
+  var archive_length = 0;
+  for(var i = 1;i < article_list.length;++i) {
+    var cur_article = article_list[i];
+    var date = cur_article.createdAt.toLocaleDateString();
+    if(current_date !== date) {
+      current_date = date;
+      article_date_list[++archive_length] = {};
+      article_date_list[archive_length].date = date;
+      article_date_list[archive_length].articles = [cur_article, ];
+    }else{
+      article_date_list[archive_length].articles.push(cur_article);
+    }
+  }
+  dict_render.article_date_list = article_date_list;
+  await ctx.render('archive', dict_render);
+})
+
 
 module.exports = router
