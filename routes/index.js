@@ -68,7 +68,7 @@ router.get('/articles/:id', async (ctx, response, next) => {
 
 router.get('/archive', async (ctx, response, next) => {
     const ArticleSnap = global.blog.loadModule('article_snap');
-    let dict_render = global.blog.loadModule('user_agent_snap').response(ctx, '', '', 'Archive');
+    let dict_render = global.blog.loadModule('user_agent_snap').response(ctx, 'archive', '', 'Archive');
     let article_list = await ArticleSnap.all();
     dict_render.article_date_list = [];
     if (article_list.length === 0) {
@@ -99,7 +99,7 @@ router.get('/archive', async (ctx, response, next) => {
 })
 
 router.get('/works', async (ctx, response, next) => {
-    const dict_render = global.blog.loadModule('user_agent_snap').response(ctx, '', '', 'Projects');
+    const dict_render = global.blog.loadModule('user_agent_snap').response(ctx, 'projects', '', 'Projects');
     await ctx.render('work_page', dict_render);
 })
 
