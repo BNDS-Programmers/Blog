@@ -47,6 +47,7 @@ router.post('/login', async (ctx, resp, next) => {
                 ctx.session.user = {
                     username: username, 
                     password: passwd,
+                    id: await UserSnap.find_id_by_nickname(username)
                 }
             }
             ctx.body = result;
@@ -116,13 +117,15 @@ router.get('/articles/create', async (ctx, next) => {
 });
 
 router.post('/articles/submit', async (ctx, next) => {
+    const UserSnap = global.blog.loadModule('user_snap');
     const post_data = ctx.request.body;
     const article = global.blog.loadModel('article');
+    if(!ctx.session.user) return await ctx.redirect('/manage/login');
     await article.create({
         title: post_data.title, 
         tag: post_data.tags, 
         content: post_data.content, 
-        author: 1, 
+        author: ctx.session.user.id, 
         preface: post_data.preface
     }).then((ret) => {
         ctx.body = {

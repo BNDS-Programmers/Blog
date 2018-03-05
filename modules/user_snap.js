@@ -3,8 +3,16 @@ const model = require('../models/user');
 const UserSnap = {
     async find_nickname_by_id(id) {
         let ret = '';
+        console.log(`Userid: ${id}`);
         await model.findById(id).then(ans => ret = ans.nickname);
         return ret;
+    }, 
+    async find_id_by_nickname(username) {
+        let result = 1;
+        await model.find({ where: { nickname: username } }).then(async ret => {
+            result = ret.id;
+        });
+        return result;
     }, 
     hash_passwd(passwd) {
         const salt = global.config.passwd_salt;
