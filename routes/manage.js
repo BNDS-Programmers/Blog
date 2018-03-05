@@ -133,7 +133,6 @@ router.get('/articles/edit', async (ctx, response, next) => {
         }
         await ctx.render('article_create', dict_render);
     } else {
-        console.log('Update Article Not Found');
         ctx.status = 404;
     }
 })
@@ -143,7 +142,6 @@ router.post('/articles/submit', async (ctx, next) => {
     const post_data = ctx.request.body;
     const article = global.blog.loadModel('article');
     if(!ctx.session.user) return await ctx.redirect('/manage/login');
-    console.log(post_data.submit_type);
     if(post_data.submit_type === 'create') {
         await article.create({
             title: post_data.title, 

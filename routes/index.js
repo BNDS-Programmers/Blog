@@ -30,7 +30,6 @@ router.get('/', async (ctx, next) => {
         tags: data[i].tag.split(',').map(x => x.trim()).filter(x => x.length), 
       })
     }
-    console.log(dict_render);
     dict_render.art_list_length = data.length;
     dict_render = UserAgentSnap.paginate(dict_render, page, last_page, paginate, config.url);
     await ctx.render('index', dict_render);

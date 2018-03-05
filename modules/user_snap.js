@@ -3,7 +3,6 @@ const model = require('../models/user');
 const UserSnap = {
     async find_nickname_by_id(id) {
         let ret = '';
-        console.log(`Userid: ${id}`);
         await model.findById(id).then(ans => ret = ans.nickname);
         return ret;
     }, 
