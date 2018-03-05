@@ -27,7 +27,7 @@
                             </div>
                         </td>
                         <td style="text-align: center"><%= 1+i+(pagination.current-1)*pagination.item_each%></td>
-                        <td style="text-align: center"><%= data[i].title%></td>
+                        <td style="text-align: center"><a href="/manage/articles/edit?id=<%= data[i].id%>"><%= data[i].title %></td>
                         <td style="text-align: center"><%= data[i].author%></td>
                         <td style="text-align: center"><%= data[i].time_create%></td>
                     </tr>

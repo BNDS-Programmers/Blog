@@ -26,11 +26,11 @@
     </form>
     <div style="padding: 20px;" align="center"><button id="submit" class="ui primary button">Post Article</button></div>
     <div class="ui basic modal">
-        <div class="ui icon header">
+        <div id="modal-header" class="ui icon header">
             <i class="archive icon"></i>
             Post New Article?
         </div>
-        <div class="content" style="text-align: center;">
+        <div id="modal-content" class="content" style="text-align: center;">
             <h4>Congrats for finishing a new article! Click "Yes" to submit a your new article!</h4>
         </div>
         <div class="actions">
@@ -47,10 +47,14 @@
 </div>
 <script>
         $(document).ready(function(){
-            $('#title-input').attr('value', "<%= article.title%>");
-            $('#tag-input').attr('value', "<%= article.tag%>");
-            $('#preface').attr('value', "<%= article.preface%>");
-            $('#editor').attr('value', "<%= article.content%>");
+            $('#title-input').attr('value', "<%= article.title %>");
+            $('#tag-input').attr('value', "<%= article.tag %>");
+            $('#preface').html("<%= article.preface %>");
+            <% if(article.submit_type === 'update') {%>
+                $('#submit').text('Update Article');
+                $('#modal-header').text('Update this Article?');
+                $('#modal-content').text('Congrats for finishing editing~Click Yes to apply your changes to the article!');
+            <% } %>
             let editor = new Simditor({
                 textarea: $('#editor'), 
                 toolbar: [
@@ -74,6 +78,7 @@
                         'alignment'
                     ]
             })
+            editor.setValue("<%- article.content %>");
             $('#title-input').on('input', () => {
                 $('#title-field').attr('class', 'field');
             })
@@ -93,16 +98,17 @@
                     $('#title-field').attr('class', 'field error');
                     return;
                 }
-                if(post_data.tags === '') {
-                    $('#tag-field').attr('class', 'field error');
-                    return;
-                }
+                // if(post_data.tags === '') {
+                //     $('#tag-field').attr('class', 'field error');
+                //     return;
+                // }
                 $('#submit').attr('class', 'ui primary loading button')
                 let content = $('#editor').val();
                 post_data.content = content;
                 post_data.preface = $('#preface').val();
                 post_data._csrf = document.head.getAttribute('data-csrf-token');
                 post_data.submit_type = "<%= article.submit_type%>";
+                post_data.update_id = <%= article.update_id %>
                 $.post("/manage/articles/submit", post_data, function(data){
                     if(typeof data.success !== 'undefined' && data.success === true) {
                         $('#submit').attr('class', 'positive ui button');

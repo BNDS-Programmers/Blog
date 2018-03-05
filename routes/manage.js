@@ -116,23 +116,62 @@ router.get('/articles/create', async (ctx, next) => {
     await ctx.render('article_create', dict_render);
 });
 
+router.get('/articles/edit', async (ctx, response, next) => {
+    const ArticleSnap = global.blog.loadModule('article_snap');
+    let dict_render = global.blog.loadModule('user_agent_snap').response(ctx, '', '', 'Edit Article');
+    let update_id = ctx.query.id;
+    if(typeof update_id === 'undefined' || update_id < 0) return ctx.status = 404;
+    const article = await ArticleSnap.findById(update_id);
+    if(article !== null) {
+        dict_render.article = {
+            title: article.title, 
+            tag: article.tag, 
+            preface: article.preface, 
+            content: article.content, 
+            update_id: update_id, 
+            submit_type: 'update', 
+        }
+        await ctx.render('article_create', dict_render);
+    } else {
+        console.log('Update Article Not Found');
+        ctx.status = 404;
+    }
+})
+
 router.post('/articles/submit', async (ctx, next) => {
     const UserSnap = global.blog.loadModule('user_snap');
     const post_data = ctx.request.body;
     const article = global.blog.loadModel('article');
     if(!ctx.session.user) return await ctx.redirect('/manage/login');
-    await article.create({
-        title: post_data.title, 
-        tag: post_data.tags, 
-        content: post_data.content, 
-        author: ctx.session.user.id, 
-        preface: post_data.preface
-    }).then((ret) => {
-        ctx.body = {
-            success: true, 
-            redirect: '/'
-        }
-    })
+    console.log(post_data.submit_type);
+    if(post_data.submit_type === 'create') {
+        await article.create({
+            title: post_data.title, 
+            tag: post_data.tags, 
+            content: post_data.content, 
+            author: ctx.session.user.id, 
+            preface: post_data.preface
+        }).then((ret) => {
+            ctx.body = {
+                success: true, 
+                redirect: '/'
+            }
+        })
+    }else if(post_data.submit_type === 'update') {
+        await article.update({
+            title: post_data.title,
+            tag: post_data.tags,
+            content: post_data.content,
+            preface: post_data.preface
+        }, {
+            where: {id: post_data.update_id}
+        }).then(ret => {
+            ctx.body = {
+                success: true, 
+                redirect: `/articles/${post_data.update_id}`
+            }
+        })
+    }
 });
 
 router.post('/articles/delete', async (ctx, next) => {

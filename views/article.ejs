@@ -16,5 +16,8 @@
     <div class="ui raised segment">
         <%- content%>
     </div>
+    <% if(user) {%>
+        <div style="padding: 20px;" align="center"><a href="/manage/articles/edit?id=<%= article_id%>" class="ui primary button">Edit Article</a></div>
+    <% } %>
 </div>
 

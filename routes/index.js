@@ -52,6 +52,8 @@ router.get('/articles/:id', async (ctx, response, next) => {
       dict_render.author = await UserSnap.find_nickname_by_id(article.author);
       dict_render.date = article.createdAt.toLocaleDateString();
       dict_render.content = article.content;
+      dict_render.user = ctx.session.user;
+      dict_render.article_id = article.id;
       await ctx.render('article', dict_render);
     }else{
       ctx.status = 404;
