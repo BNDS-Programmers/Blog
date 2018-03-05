@@ -1,0 +1,46 @@
+<% include header %>
+<div class="ui main container" style="width: 65%">
+    <div class="ui piled segment">
+        <img class="ui small centered circular image" src="<%= global.config.about.avatar_url %>">
+        <div align="center" style="padding-top: 10px"><h2><%= global.config.about.name%></h2></div>
+        <div align="center" style="padding-top: 5px;color: #6a737d"><%= global.config.about.description%></div>
+        <div class="ui raised segment" align="center">
+            <%= global.config.about.introduction%>
+        </div>
+        <div align="center">
+            <table class="ui selectable celled table" style="padding: 10px;width: 65%">
+                <thead>
+                    <tr>
+                        <th>Skill</th>
+                        <th>Level</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% for(let k in global.config.about.skills) { var stars = global.config.about.skills[k]; %>
+                        <tr>
+                            <td><%= k%></td>
+                            <td>
+                                <% for(var j = 1;j < stars;++j) {%>
+                                    <i class="star icon"></i>
+                                <% } %>
+                                <% if(stars - Math.floor(stars) > 0.0) {%>
+                                    <i class="star half empty icon"></i>
+                                <% } %>
+                            </td>
+                        </tr>
+                <% } %>
+                </tbody>
+            </table>
+        </div>
+        <div align="center" style="padding-top: 10px">
+            <a href="<%= global.config.about.github%>" style="color: black"><i class="large github icon"></i></a>
+            <a href="<%= 'mailto:' + global.config.about.email%>" style="color: DarkKhaki"><i class="large mail icon"></i></a>
+            <a href="<%= global.config.about.facebook%>" style="color: rgb(71, 101, 163)"><i class="large facebook icon"></i></a>
+            <a href="<%= global.config.about.twitter%>" style="color: rgb(59, 171, 245)"><i class="large twitter icon"></i></a>
+            <a href="<%= global.config.about.weibo%>" style="color: red"><i class="large weibo icon"></i></a>
+            <a href="<%= global.config.about.steam%>" style="color: rgb(21,57, 156)"><i class="large steam icon"></i></a>
+            <a href="<%= global.config.about.stackoverflow%>" style="color: rgb(240, 141, 37)"><i class="large stack overflow icon"></i></a>
+            <a href="<%= global.config.about.stackexchange%>" style="color: DodgerBlue "><i class="large stack exchange icon"></i></a>
+        </div>
+    </div>
+</div>
