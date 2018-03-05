@@ -9,8 +9,8 @@ global.ArticleSnap = {
     },
     async count(){
         let ret = 0;
-        await Model.findAll().then(async (ret) => {
-            ret = ret.length;
+        await Model.findAll().then(async (ans) => {
+            ret = ans.length;
         });
         return ret;
     }, 

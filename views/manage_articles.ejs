@@ -67,7 +67,9 @@
         </div>
     </div>
 </div>
-    <% include paginator %>
+    <% if(art_cnt > 0) { %>
+        <% include paginator %>
+    <% } %>
 </divs>
 <script type="text/javascript">
     var chk_cnt = 0;

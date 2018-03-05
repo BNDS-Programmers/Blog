@@ -21,7 +21,7 @@
         </div>
         <div class="field" id="content-field">
             <label>Content</label>
-            <textarea id="editor" autofocus></textarea>
+            <textarea id="editor" autofocus><%- article.content%></textarea>
         </div>
     </form>
     <div style="padding: 20px;" align="center"><button id="submit" class="ui primary button">Post Article</button></div>
@@ -47,6 +47,7 @@
 </div>
 <script>
         $(document).ready(function(){
+            console.log("<%= article.title %>");
             $('#title-input').attr('value', "<%= article.title %>");
             $('#tag-input').attr('value', "<%= article.tag %>");
             $('#preface').html("<%= article.preface %>");
@@ -78,7 +79,6 @@
                         'alignment'
                     ]
             })
-            editor.setValue("<%- article.content %>");
             $('#title-input').on('input', () => {
                 $('#title-field').attr('class', 'field');
             })

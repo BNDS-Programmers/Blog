@@ -6,6 +6,13 @@ router.get('/', async (ctx, next) => {
   const article = global.blog.loadModel('article');
   const QuerySnap = global.blog.loadModule('query_snap');
   const UserSnap = global.blog.loadModule('user_snap');
+  const ArticleSnap = global.blog.loadModule('article_snap');
+  let article_cnt = await ArticleSnap.count();
+  let dict_render = UserAgentSnap.response(ctx, 'home', '', '');
+  if(article_cnt === 0) {
+    dict_render.art_list_length = 0;
+    return await ctx.render('index', dict_render);
+  }
   var data = [];
   let paginate = 10;
   let page = ctx.query.page;
@@ -13,7 +20,6 @@ router.get('/', async (ctx, next) => {
   else page = parseInt(page);
   await QuerySnap.page(article, paginate, page).then(async (ret) => {
     data = ret
-    let dict_render = UserAgentSnap.response(ctx, 'home', '', '');
     let last_page = await QuerySnap.page_count(article, paginate);
     page = Math.max(page, 1);
     page = Math.min(page, last_page);

@@ -67,17 +67,22 @@ router.get('/articles', async (ctx, next) => {
     const article = global.blog.loadModel('article');
     const user = global.blog.loadModel('user');
     const ArticleSnap = global.blog.loadModule('article_snap');
+    const QuerySnap = global.blog.loadModule('query_snap');
     let get_param = ctx.query;
     let page = get_param.page;
     if(typeof page === 'undefined') page = 1;
     else page = parseInt(page);
     let pageinate = global.config.manage.article_pageinate;
     let article_cnt = 0;
+    let dict_render = require('../modules/user_agent_snap').response(ctx, "article", '', "Articles");
     await article.findAll().then((ret) => article_cnt = ret.length);
+    if(article_cnt == 0) {
+        dict_render.art_cnt = 0;
+        return await ctx.render('manage_articles', dict_render);
+    }
     if(page < 1) page = 1;
     else if (page > article_cnt / pageinate + 1) page = Math.ceil(article_cnt / pageinate);
-    await article.findAll({offset: pageinate * (page - 1), limit: pageinate}).then(async (ret) => {
-        let dict_render = require('../modules/user_agent_snap').response(ctx, "article", '', "Articles");
+    await QuerySnap.page(article, pageinate, page).then(async (ret) => {
         var cnt = 0;
         dict_render.data = [];
         for (var i = 0; i < ret.length; ++i) {

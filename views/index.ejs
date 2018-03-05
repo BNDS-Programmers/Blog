@@ -23,7 +23,9 @@
             </div>
         </div>
     <% } %>
-    <% include paginator %>
+    <% if(art_list_length !== 0) { %>
+        <% include paginator %>
+    <% } %>
     </div>
     <br><br>
 </div>
