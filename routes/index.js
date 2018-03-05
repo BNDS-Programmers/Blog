@@ -30,10 +30,34 @@ router.get('/', async (ctx, next) => {
         tags: data[i].tag.split(',').map(x => x.trim()).filter(x => x.length), 
       })
     }
+    console.log(dict_render);
     dict_render.art_list_length = data.length;
     dict_render = UserAgentSnap.paginate(dict_render, page, last_page, paginate, config.url);
     await ctx.render('index', dict_render);
   })
+})
+
+router.get('/articles/:id', async (ctx, response, next) => {
+  const UserAgentSnap = global.blog.loadModule('user_agent_snap');
+  const ArticleSnap = global.blog.loadModule('article_snap');
+  const UserSnap = global.blog.loadModule('user_snap');
+  let dict_render = UserAgentSnap.response(ctx, '', '', '');
+  let article_cnt = await ArticleSnap.count();
+  if(ctx.params.id < 0) {
+    ctx.status = 404;
+  }else{
+    let article = await ArticleSnap.findById(ctx.params.id);
+    if(article){
+      dict_render.title = article.title;
+      dict_render.tags = ArticleSnap.get_tags(article);
+      dict_render.author = await UserSnap.find_nickname_by_id(article.author);
+      dict_render.date = article.createdAt.toLocaleDateString();
+      dict_render.content = article.content;
+      await ctx.render('article', dict_render);
+    }else{
+      ctx.status = 404;
+    }
+  }
 })
 
 

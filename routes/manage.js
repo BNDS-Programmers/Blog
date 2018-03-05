@@ -117,11 +117,10 @@ router.get('/articles/create', async (ctx, next) => {
 
 router.post('/articles/submit', async (ctx, next) => {
     const post_data = ctx.request.body;
-    console.log(post_data);
     const article = global.blog.loadModel('article');
     await article.create({
         title: post_data.title, 
-        tags: post_data.tags, 
+        tag: post_data.tags, 
         content: post_data.content, 
         author: 1, 
         preface: post_data.preface

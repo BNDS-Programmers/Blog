@@ -1,0 +1,20 @@
+<% include header %>
+<div class="ui main container" style="width: 65%;padding-top: 20px">
+    <div align="center">
+        <h1><%= title%></h1>
+    </div>
+    <div align="center">
+        <span style="color: gray"><%= date %> created by <%= author %></span>
+    </div>
+    <% if(tags.length !== 0) { %>
+        <div align="center" style="padding-top: 20px">
+            <% for(var i in tags) { %>
+                <div class="ui label"><%= tags[i] %></div>
+            <% } %>
+        </div>
+    <% } %>
+    <div class="ui raised segment">
+        <%- content%>
+    </div>
+</div>
+
