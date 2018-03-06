@@ -1,0 +1,10 @@
+<% include header %>
+<div class="ui main container" style="margin: auto;margin-top: 10%">
+    <div class="ui negative message" align="center" style="height: 200px">
+        <div class="header"><%= error.status%> Error</div>
+        <div style="font-size: 30px; padding-top: 40px;text-align: center; color: gray"><%= error.message %></div>
+        <div style="padding-top: 40px">
+            <button class="ui labeled icon yellow button" onclick='window.location.href="/"'><i class="left arrow icon"></i>Home</button>
+        </div>
+    </div>
+</div>

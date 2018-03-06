@@ -94,14 +94,47 @@ global.blog = {
 blog.init();
 blog.run();
 
+// error page
+app.use(async (ctx, next) => {
+	try {
+		await next();
+		if (ctx.status === 404) {
+			ctx.throw(404);
+		}
+	} catch (err) {
+		let dict_render = blog.loadModule('user_agent_snap').response(ctx, 'error', 'Error', err.status);
+		console.error(err.stack);
+		dict_render.error = {};
+		const status = err.status || 500;
+		dict_render.error.status = err.status;
+		ctx.status = status;
+		if (status === 404) {
+			dict_render.error.message = '何もいませんです QwQ';
+		} else if (status === 500) {
+			dict_render.error.message = 'まじやばくね？Server Internal Error！';
+		} else if (status === 403) {
+			dict_render.error.message = '立入禁止！！出でいけ！';
+		}
+		await ctx.render("error", dict_render);
+	}
+})
+
 // routes
 app.use(index.routes(), index.allowedMethods())
 app.use(users.routes(), users.allowedMethods())
 app.use(manage.routes(), manage.allowedMethods())
 
 // error-handling
-app.on('error', (err, ctx) => {
-  console.error('server error', err, ctx)
+app.on('error', async (err, ctx) => {
+    console.error('server error', err, ctx);
+	let dict_render = blog.loadModule('user_agent_snap').response(ctx, 'error', 'Error', toString(err.status));
+	dict_render.error = {};
+    if(err.status === 404) {
+		dict_render.error.message = '何もいませんです';
+    } else if(err.status === 500) {
+		dict_render.error.message = 'Server Error QuQ!!!';
+	}
+	await ctx.render('error', dict_render);
 });
 
 module.exports = app

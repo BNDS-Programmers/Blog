@@ -5,6 +5,7 @@ const UserAgentSnap = {
         dict_render.current = current;
         dict_render.title = title === ''? global.config.title: title;
         dict_render.subtitle = subtitle === ''? global.config.subtitle: subtitle;
+        dict_render.current_location = req.request.url;
         return dict_render;
     }, 
     paginate(dict_render, current, last, paginate, href) {

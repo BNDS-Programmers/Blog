@@ -6,7 +6,8 @@ router.get('/', async (ctx, next) => {
         // await ctx.render('manage_menu', dict_render);
         await ctx.redirect('/manage/articles');
     }else{
-        await ctx.redirect('/manage/login');
+        // await ctx.redirect('/manage/login');
+        await ctx.throw(403, 'Permisson Denied', {status: 403, msg: 'Permission Denied'});
     }
 })
 
@@ -63,7 +64,7 @@ router.get('/logout', async (ctx, resp, next) => {
 
 router.get('/articles', async (ctx, next) => {
     if (!ctx.session.user) {
-        return await ctx.redirect('/manage/login')
+        await ctx.throw(403, 'Permisson Denied', { status: 403, msg: 'Permission Denied' });
     }
     const article = global.blog.loadModel('article');
     const user = global.blog.loadModel('user');
@@ -109,7 +110,7 @@ router.get('/articles', async (ctx, next) => {
 
 router.get('/articles/create', async (ctx, next) => {
     if (!ctx.session.user) {
-        return await ctx.redirect('/manage/login')
+        await ctx.throw(403, 'Permisson Denied', { status: 403, msg: 'Permission Denied' });
     }
     let dict_render = blog.loadModule('user_agent_snap').response(ctx, "article_create", 'Create an Article', '');
     dict_render.article = {
@@ -123,6 +124,9 @@ router.get('/articles/create', async (ctx, next) => {
 });
 
 router.get('/articles/edit', async (ctx, response, next) => {
+    if(!ctx.session.user) {
+        await ctx.throw(403, 'Permisson Denied', { status: 403, msg: 'Permission Denied' });
+    }
     const ArticleSnap = global.blog.loadModule('article_snap');
     let dict_render = global.blog.loadModule('user_agent_snap').response(ctx, '', '', 'Edit Article');
     let update_id = ctx.query.id;
