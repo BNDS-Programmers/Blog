@@ -8,7 +8,7 @@ config = {
         AD1024: "!QAZXSW@#EDC"
     }, 
     favicon: null, 
-    article_cover_count: 14, 
+    article_cover_count: 19, 
     db: {
         host: "localhost",
         port: 3306,  
