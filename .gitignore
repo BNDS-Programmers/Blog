@@ -5,6 +5,9 @@ logs
 # Mac layout file
 .DS_Store
 
+# Production config
+config.js
+
 # Runtime data
 pids
 *.pid

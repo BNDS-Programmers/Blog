@@ -3,11 +3,11 @@
     <div class="ui styled fluid accordion">
         <script type="text/javascript" src="/libs/semantic-ui/components/accordion.min.js"></script>
         <% for(var i = 0; i < article_date_list.length; ++i) { %>
-            <div class="active title">
+            <div class="title">
                 <i class="dropdown icon"></i>
                 <%= article_date_list[i].date %>
             </div>
-            <div class="active content">
+            <div class="content">
                 <div class="ui vertical fluid menu">
                     <% for(let j = 0;j < article_date_list[i].articles.length;++j) {%>
                         <a href="/articles/<%= article_date_list[i].articles[j].id %>" class="item">
