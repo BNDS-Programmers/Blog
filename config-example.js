@@ -3,6 +3,7 @@ config = {
     subtitle: "My blog", 
     author: "Your Name", 
     article_per_page: 10, 
+    code_highlight_theme: "atom-one-light", 
     admins: {
         root: "root", 
         AD1024: "!QAZXSW@#EDC"
