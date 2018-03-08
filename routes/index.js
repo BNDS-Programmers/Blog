@@ -7,18 +7,22 @@ router.get('/', async (ctx, next) => {
     const QuerySnap = global.blog.loadModule('query_snap');
     const UserSnap = global.blog.loadModule('user_snap');
     const ArticleSnap = global.blog.loadModule('article_snap');
+    const query_title = ctx.query['search-title'];
+    const Op = require('Sequelize').Op;
     let article_cnt = await ArticleSnap.count();
     let dict_render = UserAgentSnap.response(ctx, 'home', '', '');
+    dict_render.art_list_length = 0;
     if(article_cnt === 0) {
-        dict_render.art_list_length = 0;
         return await ctx.render('index', dict_render);
     }
     var data = [];
     let paginate = 10;
     let page = ctx.query.page;
+    let where_query = {};
+    if(typeof query_title !== 'undefined' && query_title !== '') { where_query = {title: { [Op.regexp]: query_title }}; }
     if(typeof page === 'undefined') page = 1;
     else page = parseInt(page);
-    await QuerySnap.page(article, paginate, page).then(async (ret) => {
+    await QuerySnap.page(article, paginate, page, where=where_query).then(async (ret) => {
         data = ret
         let last_page = await QuerySnap.page_count(article, paginate);
         page = Math.max(page, 1);
@@ -26,14 +30,14 @@ router.get('/', async (ctx, next) => {
         dict_render.article_list = []
         for(var i = 0;i < data.length; ++i) {
             dict_render.article_list.push({
-            cover: Math.max(Math.round(Math.random() * global.config.article_cover_count), 1), 
-            title: data[i].title, 
-            author: await UserSnap.find_nickname_by_id(data[i].author), 
-            preface: data[i].preface === ''?'No Preface QwQ': data[i].preface, 
-            create: data[i].createdAt.toLocaleDateString(),
-            update: data[i].updatedAt.toLocaleDateString(),
-            id: data[i].id, 
-            tags: data[i].tag.split(',').map(x => x.trim()).filter(x => x.length), 
+                cover: Math.max(Math.round(Math.random() * global.config.article_cover_count), 1), 
+                title: data[i].title, 
+                author: await UserSnap.find_nickname_by_id(data[i].author), 
+                preface: data[i].preface === ''?'No Preface QwQ': data[i].preface, 
+                create: data[i].createdAt.toLocaleDateString(),
+                update: data[i].updatedAt.toLocaleDateString(),
+                id: data[i].id, 
+                tags: data[i].tag.split(',').map(x => x.trim()).filter(x => x.length), 
             })
         }
         dict_render.art_list_length = data.length;

@@ -61,7 +61,7 @@ global.blog = {
   }, 
   db: null, 
   async connectDB(){
-    const Sequlize = require('sequelize')
+    const Sequlize = require('sequelize');
     this.db = new Sequlize(global.config.db.database, global.config.db.username, global.config.db.password, {
       host: global.config.db.host, 
       dialect: global.config.db.dialect, 
