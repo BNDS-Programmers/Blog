@@ -17,7 +17,7 @@
         </div>
         <div class="field" id="preface-field">
             <label>Description</label>
-            <textarea id="preface" autofocus></textarea>
+            <textarea id="preface" autofocus><%= article.preface %></textarea>
         </div>
         <div class="field" id="content-field">
             <label>Content</label>
@@ -50,7 +50,6 @@
             console.log("<%= article.title %>");
             $('#title-input').attr('value', "<%= article.title %>");
             $('#tag-input').attr('value', "<%= article.tag %>");
-            $('#preface').html("<%= article.preface %>");
             <% if(article.submit_type === 'update') {%>
                 $('#submit').text('Update Article');
                 $('#modal-header').text('Update this Article?');
