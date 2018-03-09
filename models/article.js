@@ -6,7 +6,8 @@ const model = db.define('article', {
     content: {type: Sequelize.TEXT, defaultValue: ""}, 
     title: {type: Sequelize.TEXT, defaultValue: ""}, 
     tag: {type: Sequelize.STRING, defaultValue: ""}, 
-    preface: {type: Sequelize.TEXT, defaultValue: ""}
+    preface: {type: Sequelize.TEXT, defaultValue: ""}, 
+    content_type: {type: Sequelize.STRING, defaultValue: "html"}, 
 });
 /* Test data 
 model.sync().then(() => {
@@ -18,4 +19,5 @@ model.sync().then(() => {
         });
     }
 })*/
+model.sync();
 module.exports = model

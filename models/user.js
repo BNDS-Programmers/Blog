@@ -22,5 +22,6 @@ model.sync().then(()=>{
             user_group: "S", 
             email: "admin@admin.xyz", password: actual}});
     }
-})
+});
+model.sync();
 module.exports = model;
