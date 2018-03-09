@@ -50,6 +50,7 @@ router.get('/articles/:id', async (ctx, response, next) => {
     const UserAgentSnap = global.blog.loadModule('user_agent_snap');
     const ArticleSnap = global.blog.loadModule('article_snap');
     const UserSnap = global.blog.loadModule('user_snap');
+    const MdIt = require('markdown-it')();
     let dict_render = UserAgentSnap.response(ctx, '', '', '');
     if(ctx.params.id < 0) {
         ctx.status = 404;
@@ -61,6 +62,8 @@ router.get('/articles/:id', async (ctx, response, next) => {
             dict_render.author = await UserSnap.find_nickname_by_id(article.author);
             dict_render.date = article.createdAt.toLocaleDateString();
             dict_render.content = article.content;
+            if (article.content_type === 'markdown')
+                dict_render.content = MdIt.render(dict_render.content);
             dict_render.user = ctx.session.user;
             dict_render.article_id = article.id;
             await ctx.render('article', dict_render);

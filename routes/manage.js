@@ -118,7 +118,8 @@ router.get('/articles/create', async (ctx, next) => {
         tag: '', 
         preface: '', 
         content: '', 
-        submit_type: 'create'
+        submit_type: 'create', 
+        content_type: 'html', 
     };
     await ctx.render('article_create', dict_render);
 });
@@ -140,6 +141,7 @@ router.get('/articles/edit', async (ctx, response, next) => {
             content: article.content, 
             update_id: update_id, 
             submit_type: 'update', 
+            content_type: article.content_type, 
         }
         await ctx.render('article_create', dict_render);
     } else {
@@ -158,7 +160,8 @@ router.post('/articles/submit', async (ctx, next) => {
             tag: post_data.tags, 
             content: post_data.content, 
             author: ctx.session.user.id, 
-            preface: post_data.preface
+            preface: post_data.preface, 
+            content_type: post_data.content_type, 
         }).then((ret) => {
             ctx.body = {
                 success: true, 
@@ -170,7 +173,8 @@ router.post('/articles/submit', async (ctx, next) => {
             title: post_data.title,
             tag: post_data.tags,
             content: post_data.content,
-            preface: post_data.preface
+            preface: post_data.preface, 
+            content_type: post_data.content_type, 
         }, {
             where: {id: post_data.update_id}
         }).then(ret => {

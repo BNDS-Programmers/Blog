@@ -1,5 +1,7 @@
-<% include manage_menu %>
-<div class="ui container">
+<% include head_include %>
+<div align=center class="ui piled segment" style="padding-top: 20px"><h1>Blog Composer</h1></div>
+<div align=center><button class="ui labeled icon green button" onclick='window.location.href="/manage/articles"'><i class="left arrow icon"></i>Back</button></div>
+<div class="ui main container">
     <form class="ui form" method="POST" action="/manage/article/submit" id="article_form" name="article_form">
         <div class="field" id="title-field">
             <label>Title</label>
@@ -21,7 +23,13 @@
         </div>
         <div class="field" id="content-field">
             <label>Content</label>
-            <textarea id="editor" autofocus><%- article.content%></textarea>
+            <% if(global.config.editor === 'simditor') { %>
+                <textarea id="editor" autofocus><%- article.content%></textarea>
+            <% } else { %>
+            <div id="editor-md">
+                <textarea id="editor" autofocus><%= article.content%></textarea>
+            </div>
+            <% } %>
         </div>
     </form>
     <div style="padding: 20px;" align="center"><button id="submit" class="ui primary button">Post Article</button></div>
@@ -47,7 +55,7 @@
 </div>
 <script>
         $(document).ready(function(){
-            console.log("<%= article.title %>");
+            let editor = undefined;
             $('#title-input').attr('value', "<%= article.title %>");
             $('#tag-input').attr('value', "<%= article.tag %>");
             <% if(article.submit_type === 'update') {%>
@@ -55,29 +63,53 @@
                 $('#modal-header').text('Update this Article?');
                 $('#modal-content').text('Congrats for finishing editing~Click Yes to apply your changes to the article!');
             <% } %>
-            let editor = new Simditor({
-                textarea: $('#editor'), 
-                toolbar: [
-                        'title',
-                        'bold',
-                        'italic',
-                        'underline',
-                        'strikethrough',
-                        'fontScale',
-                        'color',
-                        'ol',
-                        'ul',
-                        'blockquote',
-                        'code',
-                        'table',
-                        'link',
-                        'image',
-                        'hr',
-                        'indent',
-                        'outdent',
-                        'alignment'
-                    ]
-            })
+            if("<%= global.config.editor%>" === 'simditor' && "<%= article.content_type %>" !== 'markdown') {
+                    editor = new Simditor({
+                        textarea: $('#editor'), 
+                        toolbar: [
+                                'title',
+                                'bold',
+                                'italic',
+                                'underline',
+                                'strikethrough',
+                                'fontScale',
+                                'color',
+                                'ol',
+                                'ul',
+                                'blockquote',
+                                'code',
+                                'table',
+                                'link',
+                                'image',
+                                'hr',
+                                'indent',
+                                'outdent',
+                                'alignment'
+                        ]
+                })
+            } else {
+                editor = editormd("editor-md", {
+                        width: "100%",
+                        height: 740,
+                        path : '/libs/editor/lib/',
+                        editorTheme : "pastel-on-dark",
+                        codeFold : true,
+                        searchReplace : true,
+                        htmlDecode : "style,script,iframe|on*",   
+                        emoji : true,
+                        taskList : true,
+                        tocm : true, 
+                        tex : true,
+                        flowChart : true,
+                        sequenceDiagram : true,
+                        imageUpload : true,
+                        imageFormats : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+                        imageUploadURL : "/manage/upload", 
+                        onload: () => {
+                            console.log('Loading', this)
+                        }
+                    });
+            }
             $('#title-input').on('input', () => {
                 $('#title-field').attr('class', 'field');
             })
@@ -102,12 +134,21 @@
                 //     return;
                 // }
                 $('#submit').attr('class', 'ui primary loading button')
-                let content = $('#editor').val();
+                let content = undefined;
+                if("<%= global.config.editor %>" === 'simditor') {
+                    content = $('#editor').val();
+                    post_data.content_type = 'html';
+                }else{
+                    content = editor.getMarkdown();
+                    post_data.content_type = 'markdown';
+                }
                 post_data.content = content;
                 post_data.preface = $('#preface').val();
                 post_data._csrf = document.head.getAttribute('data-csrf-token');
                 post_data.submit_type = "<%= article.submit_type%>";
-                post_data.update_id = <%= article.update_id %>
+                <% if(article.submit_type === 'update') { %>
+                    post_data.update_id = <%= article.update_id %>;
+                <% } %>
                 $.post("/manage/articles/submit", post_data, function(data){
                     if(typeof data.success !== 'undefined' && data.success === true) {
                         $('#submit').attr('class', 'positive ui button');

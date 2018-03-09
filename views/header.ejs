@@ -3,17 +3,22 @@
 <head data-csrf-token="<%= csrf%>"
     <meta charset="UTF-8">
     <title><%= title%> - <%= subtitle%></title>
-    <link rel="stylesheet" href="/libs/semantic-ui/semantic.min.css">
-    <link rel="stylesheet" type="text/css" href="/libs/simditor/site/assets/styles/simditor.css" />
     <script type="text/javascript" src="/libs/jquery.min.js"></script>
+    <link rel="stylesheet" href="/libs/semantic-ui/semantic.min.css">
     <script type="text/javascript" src="/libs/semantic-ui/semantic.min.js"></script>
-    <script type="text/javascript" src="/libs/simditor/site/assets/scripts/module.js"></script>
-    <script type="text/javascript" src="/libs/simditor/site/assets/scripts/hotkeys.js"></script>
-    <script type="text/javascript" src="/libs/simditor/site/assets/scripts/uploader.js"></script>
-    <script type="text/javascript" src="/libs/simditor/site/assets/scripts/simditor.js"></script>
+    <!--- Highlight.js -->
     <link rel="stylesheet" href="/libs/highlight/styles/<%= global.config.code_highlight_theme %>.css">
     <script src="/libs/highlight/highlight.pack.js"></script>
     <script>hljs.initHighlightingOnLoad();</script>
+    <link href="/libs/katex/katex.min.css" rel="stylesheet">
+    <script src="/libs/katex/katex.min.js"></script>
+    <script src="/libs/katex/contrib/auto-render.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            console.log('Rendering TeX');
+            renderMathInElement(document.body);
+        });
+  </script>
 </head>
 <body>
     <div class="ui top fixed borderless labeled icon menu" style="position: fixed;">
