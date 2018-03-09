@@ -1,8 +1,8 @@
 # Blog - Generic Blog System
  A blog system developed by using Nodejs
  Major modules: Koa2, Sequelize(ORM), EJS(front end engine), Semantic UI
- **Preview: [My New Blog](http://ad1024.tech)**
- Due to the Internet restriction in China, the page sometimes will be redirected to a goverment warning page; you can just refresh from some times. 
+ 
+ **Preview: [My New Blog](http://ad1024.space)**
 
  # Requirement
  - Nodejs v9.0+
