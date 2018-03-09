@@ -32,6 +32,7 @@
  - `author`: Your name, 
  - `admins`: all admins will be created at the first time of the execution. Keys are username and values are password.
  - `article_per_page`: You know
+ - `editor`: the default editor(editor.md recommended)-> support: simditor / editor.md; the former one is a rich text editor, and the latter one is a markdown editor.
  - `favicon`: **(Currently this item is not useful)** The path to the favicon
  - `article_cover_count`: The number of front covers(starts with "material-" and ends with ".png", you can store them in /static/images)
  - `db`: database connection configuration
