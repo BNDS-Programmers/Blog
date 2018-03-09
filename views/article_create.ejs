@@ -135,7 +135,7 @@
                 // }
                 $('#submit').attr('class', 'ui primary loading button')
                 let content = undefined;
-                if("<%= global.config.editor %>" === 'simditor') {
+                if("<%= global.config.editor %>" === 'simditor' || "<%= article.content_type %>" !== 'markdown') {
                     content = $('#editor').val();
                     post_data.content_type = 'html';
                 }else{
