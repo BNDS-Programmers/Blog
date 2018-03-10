@@ -119,7 +119,7 @@ router.get('/articles/create', async (ctx, next) => {
         preface: '', 
         content: '', 
         submit_type: 'create', 
-        content_type: 'html', 
+        content_type: '', 
     };
     await ctx.render('article_create', dict_render);
 });
