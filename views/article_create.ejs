@@ -63,7 +63,7 @@
                 $('#modal-header').text('Update this Article?');
                 $('#modal-content').text('Congrats for finishing editing~Click Yes to apply your changes to the article!');
             <% } %>
-            if("<%= global.config.editor%>" === 'simditor' || "<%= article.content_type %>" !== 'markdown') {
+            if("<%= global.config.editor%>" === 'simditor' || "<%= article.content_type %>" === 'html') {
                     editor = new Simditor({
                         textarea: $('#editor'), 
                         toolbar: [
@@ -135,7 +135,7 @@
                 // }
                 $('#submit').attr('class', 'ui primary loading button')
                 let content = undefined;
-                if("<%= global.config.editor %>" === 'simditor' || "<%= article.content_type %>" !== 'markdown') {
+                if("<%= global.config.editor %>" === 'simditor' || "<%= article.content_type %>" === 'html') {
                     content = $('#editor').val();
                     post_data.content_type = 'html';
                 }else{
