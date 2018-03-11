@@ -9,7 +9,7 @@ const model = db.define('article', {
     preface: {type: Sequelize.TEXT, defaultValue: ""}, 
     content_type: {type: Sequelize.STRING, defaultValue: "html"}, 
 });
-// Test data 
+/*Test data 
 model.sync().then(() => {
     for(var i = 1;i <= 30;++i){
         model.findOrCreate({
@@ -18,6 +18,6 @@ model.sync().then(() => {
             }
         });
     }
-})
+})*/
 model.sync();
 module.exports = model
