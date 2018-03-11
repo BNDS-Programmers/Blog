@@ -101,7 +101,8 @@ router.get('/articles', async (ctx, next) => {
             current: parseInt(page), 
             last_page: Math.ceil(article_cnt / pageinate), 
             item_each: pageinate, 
-            href: '/manage/articles'
+            href: '/manage/articles', 
+            param: [],
         }
         dict_render.art_cnt = ret.length;
         await ctx.render('manage_articles', dict_render);
