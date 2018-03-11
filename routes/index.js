@@ -16,7 +16,7 @@ router.get('/', async (ctx, next) => {
         return await ctx.render('index', dict_render);
     }
     var data = [];
-    let paginate = 10;
+    let paginate = global.config.article_per_page;
     let page = ctx.query.page;
     let where_query = {};
     if(typeof query_title !== 'undefined' && query_title !== '') { where_query = {title: { [Op.regexp]: query_title }}; }
@@ -24,7 +24,7 @@ router.get('/', async (ctx, next) => {
     else page = parseInt(page);
     await QuerySnap.page(article, paginate, page, where=where_query).then(async (ret) => {
         data = ret
-        let last_page = await QuerySnap.page_count(article, paginate);
+        let last_page = await QuerySnap.page_count(article, paginate, where_query);
         page = Math.max(page, 1);
         page = Math.min(page, last_page);
         dict_render.article_list = []
@@ -41,7 +41,9 @@ router.get('/', async (ctx, next) => {
             })
         }
         dict_render.art_list_length = data.length;
-        dict_render = UserAgentSnap.paginate(dict_render, page, last_page, paginate, config.url);
+        let query_param = [];
+        if(typeof query_title !== 'undefined' && query_title !== '') query_param.push(`search-title=${query_title}`);
+        dict_render = UserAgentSnap.paginate(dict_render, page, last_page, paginate, config.url, query_param);
         await ctx.render('index', dict_render);
     })
 })

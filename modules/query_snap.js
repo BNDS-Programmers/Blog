@@ -8,9 +8,9 @@ const func_dict = {
         });
         return (model.findAll({ offset: (page - 1) * paginate, limit: paginate, order: order , where: where}));
     }, 
-    async page_count(model, paginate) {
+    async page_count(model, paginate, where={}) {
         let total = 0;
-        await model.findAll().then(ret => {
+        await model.findAll({where: where}).then(ret => {
             total = ret.length;
         });
         return Math.ceil(total / paginate);

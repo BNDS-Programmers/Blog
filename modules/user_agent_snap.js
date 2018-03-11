@@ -8,8 +8,8 @@ const UserAgentSnap = {
         dict_render.current_location = req.request.url;
         return dict_render;
     }, 
-    paginate(dict_render, current, last, paginate, href) {
-        return Object.assign({pagination: {current: current, last_page: last, item_each: paginate, href: href}}, dict_render);
+    paginate(dict_render, current, last, paginate, href, param=[]) {
+        return Object.assign({pagination: {current: current, last_page: last, item_each: paginate, href: href, param: param}}, dict_render);
     }
 }
 
