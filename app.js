@@ -29,7 +29,9 @@ app.use(session(sessionConf, app));
 
 // middlewares
 app.use(bodyparser({
-  enableTypes:['json', 'form', 'text']
+  enableTypes:['json', 'form', 'text'], 
+  jsonLimit: '50mb', 
+  formLimit: '50mb',
 }))
 app.use(json())
 app.use(logger())
