@@ -157,6 +157,13 @@
                         setTimeout(() => {
                             window.location.href = "<%= global.config.url %>" + redirect;
                         }, 2000);
+                    } else {
+                        $('#submit').attr('class', 'negative ui button');
+                        $('#submit').text('Error QwQ');
+                        $('#submit').attr('data-content', 'Click to retry');
+                        $('#submit').popup({
+                            on: 'hover'
+                        });
                     }
                 });
                 return;
