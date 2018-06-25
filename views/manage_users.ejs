@@ -1,0 +1,31 @@
+<% include manage_menu %>
+<div class="ui container" style="padding-top: 20px">
+    <% for(var i=0;i < user_cardList.length;++i) { %>
+        <div class="ui link cards">
+            <% for(var j=0;j < user_cardList[i].length;++j) { %>
+                <div class="card">
+                    <div class="image">
+                        <img src="/images/user-default-avatar.jpg">
+                    </div>
+                    <div class="content">
+                        <div class="header"><%= user_cardList[i][j].name %></div>
+                        <div class="meta"><%= user_cardList[i][j].group %></div>
+                        <div class="description">
+                            Email: <%= user_cardList[i][j].email %>
+                        </div>
+                    </div>
+                    <div class="extra content">
+                        <span class="right floated">
+                            Joined On <%= user_cardList[i][j].createdAt  %>
+                        </span>
+                        <span>
+                            <i class="file alternate outline icon">
+                            </i>
+                            <%= user_cardList[i][j].article_count %>
+                        </span>
+                    </div>
+                </div>
+            <% } %>
+        </div>
+    <% } %>
+</div>

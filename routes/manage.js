@@ -109,6 +109,39 @@ router.get('/articles', async (ctx, next) => {
     });
 });
 
+router.get('/users', async (ctx, resp, next) => {
+    if(!ctx.session.user) {
+        await ctx.throw(403, 'Permission Denied', {status: 403, msg: 'Permission Denied!' });
+    } else {
+        let dict_render = blog.loadModule('user_agent_snap').response(ctx, 'users', 'Blog', 'User Manage');
+        let User = blog.loadModel('user');
+        const card_per_line = 3;
+        await User.findAll().then(result => {
+            dict_render.user_cardList = [];
+            var tmp_list = [];
+            for(var i = 0;i < result.length;++i) {
+                if(tmp_list.length == card_per_line) {
+                    dict_render.user_cardList.push(tmp_list);
+                    tmp_list = [];
+                }
+                tmp_list.push({
+                    "name": result[i].nickname, 
+                    "group": result[i].user_group == 'S'?"Administrator":"Composer", 
+                    "createdAt": result[i].createdAt.toLocaleDateString(), 
+                    "article_count": result[i].article_count,
+                    "email": result[i].email
+                });
+            }
+            if(tmp_list.length !== 0) {
+                dict_render.user_cardList.push(tmp_list);
+            }
+            console.log(dict_render.user_cardList);
+        });
+        console.log(dict_render.user_cardList);
+        await ctx.render('manage_users', dict_render);
+    }
+});
+
 router.get('/articles/create', async (ctx, next) => {
     if (!ctx.session.user) {
         await ctx.throw(403, 'Permisson Denied', { status: 403, msg: 'Permission Denied' });
