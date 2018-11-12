@@ -28,11 +28,12 @@
     "koa-views": "^6.1.4",
     "markdown-it": "^8.4.1",
     "mysql2": "^1.5.3",
+    "npm": "^6.4.1",
     "pm2": "^2.10.4",
     "pug": "^2.0.3",
-    "semantic-ui": "^2.3.2",
+    "semantic-ui": "^2.4.2",
     "sequelize": "^4.38.0",
-    "simditor": "^2.3.6"
+    "simditor": "^2.3.23"
   },
   "devDependencies": {
     "nodemon": "^1.17.5"
