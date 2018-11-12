@@ -5,6 +5,9 @@ logs
 # Mac layout file
 .DS_Store
 
+# IDEA files
+.idea
+
 # Production config
 config.js
 
