@@ -53,6 +53,7 @@ router.get('/articles/:id', async (ctx, response, next) => {
     const ArticleSnap = global.blog.loadModule('article_snap');
     const UserSnap = global.blog.loadModule('user_snap');
     const MdIt = require('markdown-it')();
+    MdIt.use(require('markdown-it-table-of-contents'));
     let dict_render = UserAgentSnap.response(ctx, '', '', '');
     if(ctx.params.id < 0) {
         ctx.status = 404;

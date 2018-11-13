@@ -28,6 +28,7 @@
     "koa-static": "^5.0.0",
     "koa-views": "^6.1.4",
     "markdown-it": "^8.4.1",
+    "markdown-it-table-of-contents": "^0.4.3",
     "mysql2": "^1.5.3",
     "npm": "^6.4.1",
     "pm2": "^2.10.4",
