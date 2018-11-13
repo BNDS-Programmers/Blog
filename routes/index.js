@@ -52,7 +52,11 @@ router.get('/articles/:id', async (ctx, response, next) => {
     const UserAgentSnap = global.blog.loadModule('user_agent_snap');
     const ArticleSnap = global.blog.loadModule('article_snap');
     const UserSnap = global.blog.loadModule('user_snap');
-    const MdIt = require('markdown-it')();
+    const MdIt = require('markdown-it')({
+        html: true,
+        linkify: true,
+        typographer: true
+    });
     MdIt.use(require('markdown-it-table-of-contents'));
     MdIt.use(require('markdown-it-anchor'));
     let dict_render = UserAgentSnap.response(ctx, '', '', '');
