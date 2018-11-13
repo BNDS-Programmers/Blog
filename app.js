@@ -26,7 +26,6 @@ let sessionConf = {
   resave: true
 }
 app.use(session(sessionConf, app));
-
 // middlewares
 app.use(bodyparser({
   enableTypes:['json', 'form', 'text'], 

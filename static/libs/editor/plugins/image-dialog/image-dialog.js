@@ -39,7 +39,7 @@
             if (editor.find("." + dialogName).length < 1)
             {
                 var guid   = (new Date).getTime();
-                var action = settings.imageUploadURL + (settings.imageUploadURL.indexOf("?") >= 0 ? "&" : "?") + "guid=" + guid;
+                var action = settings.imageUploadURL + (settings.imageUploadURL.indexOf("?") >= 0 ? "&" : "?") + "guid=" + guid + "&_csrf=" + settings._csrf;
 
                 if (settings.crossDomainUpload)
                 {
@@ -49,9 +49,10 @@
                 var dialogContent = ( (settings.imageUpload) ? "<form action=\"" + action +"\" target=\"" + iframeName + "\" method=\"post\" enctype=\"multipart/form-data\" class=\"" + classPrefix + "form\">" : "<div class=\"" + classPrefix + "form\">" ) +
                                         ( (settings.imageUpload) ? "<iframe name=\"" + iframeName + "\" id=\"" + iframeName + "\" guid=\"" + guid + "\"></iframe>" : "" ) +
                                         "<label>" + imageLang.url + "</label>" +
+                                        // "<input type=\"hidden\" name=\"_csrf\" value=\"" + settings._csrf + "\" />" +
                                         "<input type=\"text\" data-url />" + (function(){
                                             return (settings.imageUpload) ? "<div class=\"" + classPrefix + "file-input\">" +
-                                                                                "<input type=\"file\" name=\"" + classPrefix + "image-file\" accept=\"image/*\" />" +
+                                                                                "<input type=\"file\" name=\"imageFile\" accept=\"image/*\" />" +
                                                                                 "<input type=\"submit\" value=\"" + imageLang.uploadButton + "\" />" +
                                                                             "</div>" : "";
                                         })() +
@@ -134,14 +135,14 @@
 					if (fileName === "")
 					{
 						alert(imageLang.uploadFileEmpty);
-                        
+
                         return false;
 					}
-					
+
                     if (!isImage.test(fileName))
 					{
 						alert(imageLang.formatNotAllowed + settings.imageFormats.join(", "));
-                        
+
                         return false;
 					}
 
@@ -152,7 +153,7 @@
                         var uploadIframe = document.getElementById(iframeName);
 
                         uploadIframe.onload = function() {
-                            
+
                             loading(false);
 
                             var body = (uploadIframe.contentWindow ? uploadIframe.contentWindow : uploadIframe.contentDocument).document.body;
@@ -160,13 +161,16 @@
 
                             json = (typeof JSON.parse !== "undefined") ? JSON.parse(json) : eval("(" + json + ")");
 
-                            if (json.success === 1)
+                            if(!settings.crossDomainUpload)
                             {
-                                dialog.find("[data-url]").val(json.url);
-                            }
-                            else
-                            {
-                                alert(json.message);
+                              if (json.success === 1)
+                              {
+                                  dialog.find("[data-url]").val(json.url);
+                              }
+                              else
+                              {
+                                  alert(json.message);
+                              }
                             }
 
                             return false;

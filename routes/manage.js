@@ -1,6 +1,6 @@
 const router = require('koa-router')();
 router.prefix('/manage')
-router.get('/', async (ctx, next) => {
+router.get('/', async (ctx, resp, next) => {
     if(ctx.session.user) {
         let dict_render = global.blog.loadModule('user_agent_snap').response(ctx, null, '', 'Management');
         // await ctx.render('manage_menu', dict_render);
@@ -142,7 +142,7 @@ router.get('/users', async (ctx, resp, next) => {
     }
 });
 
-router.get('/articles/create', async (ctx, next) => {
+router.get('/articles/create', async (ctx, resp, next) => {
     if (!ctx.session.user) {
         await ctx.throw(403, 'Permisson Denied', { status: 403, msg: 'Permission Denied' });
     }
@@ -240,27 +240,24 @@ router.post('/articles/delete', async (ctx, next) => {
     }
 });
 
-router.post('/upload', async(ctx, next) => {
+// No proper method discovered...
+/*router.post('/upload', async(ctx, resp, next) => {
     const fs = require('fs');
     const crypto = require('crypto');
+    if (Object.keys(ctx.files).length == 0) {
+        ctx.body = {success : false};
+        return;
+    }
+    let file = ctx.files.imageFile;
     let uuid = crypto.createHash('md5').update('' + Date.now()).digest('hex');
-    let file_data = ctx.request.body.upload_file;
-    let file_type = ctx.request.body.file_type;
-    let file_path = `/upload/images/${uuid}.${file_type}`
-    await fs.writeFile(file_path, file_data, (err) => {
-        if(err){
-            blog.log('Error while uploding ' + uuid);
-            ctx.body = {
-                success: false
-            }
-        }else{
-            blog.log(`${uuid}.${file_type} written!`);
-            ctx.body = {
-                success: true, 
-                file_path: config.url + file_path
-            }
+    let file_path = `/static/upload/images/${uuid}.${file.mimetype}`;
+    file.mv(file_path, (err) => {
+        if (err) {
+            ctx.body = {success : false};
+        } else {
+            ctx.body = { success: true, file_path: config.url + file_path };
         }
     });
-})
+}); */
 
 module.exports = router;

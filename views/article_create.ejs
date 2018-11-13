@@ -19,7 +19,7 @@
         </div>
         <div class="field" id="preface-field">
             <label>Description</label>
-            <textarea id="preface" autofocus><%= article.preface %></textarea>
+            <textarea id="preface" autofocus style="width:100%; height:60%"><%= article.preface %></textarea>
         </div>
         <div class="field" id="content-field">
             <label>Content</label>
@@ -102,9 +102,11 @@
                         tex : true,
                         flowChart : true,
                         sequenceDiagram : true,
-                        imageUpload : true,
+                        imageUpload : false,
                         imageFormats : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
                         imageUploadURL : "/manage/upload", 
+                        _csrf : document.head.getAttribute('data-csrf-token'), 
+                        autoHeight: false, 
                         onload: () => {
                             console.log('Loading', this)
                         }
