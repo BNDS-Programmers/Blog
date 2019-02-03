@@ -26,7 +26,7 @@ config = {
         avatar_url: 'https://avatars1.githubusercontent.com/u/12641212?s=460&v=4', 
         name: 'AD1024', 
         introduction: "我系渣渣辉，说话战斗，罩衣自由，提现到手，今晚八点，贪玩蓝月，准时开车",
-        description: 'A student developer in Beijing National Day School, Grade 12',  
+        about_content: '', // store your about description markdown file in views/static/{filename}.md  
         skills: {
             'C++': 3.5, 
             'C': 4, 

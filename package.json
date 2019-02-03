@@ -29,6 +29,7 @@
     "koa-views": "^6.1.4",
     "markdown-it": "^8.4.1",
     "markdown-it-anchor": "^5.0.2",
+    "markdown-it-decorate": "^1.2.2",
     "markdown-it-table-of-contents": "^0.4.3",
     "mysql2": "^1.5.3",
     "npm": "^6.4.1",

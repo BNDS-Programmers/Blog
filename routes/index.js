@@ -120,6 +120,22 @@ router.get('/works', async (ctx, response, next) => {
 
 router.get('/about', async (ctx, response, next) => {
     const dict_render = global.blog.loadModule('user_agent_snap').response(ctx, 'about', '', 'About me');
+    const fs = require('fs');
+    const path = require('path')
+    const MdIt = require('markdown-it')({
+        html: true,
+        linkify: true,
+        typographer: true
+    });
+    MdIt.use(require('markdown-it-decorate'));
+    console.log(path.join(__dirname, '..', 'views' ,'static', 'about.md'))
+    await fs.readFile(path.join(__dirname, '..', 'views' ,'static', 'about.md'), 'utf-8', (err, contents) => {
+            if (typeof contents !== 'undefined') {
+                dict_render.about_content = MdIt.render(contents);
+            } else {
+                dict_render.about_content = '<p> Nothing Here :D</p>';
+            }
+    });
     await ctx.render('about', dict_render);
 })
 

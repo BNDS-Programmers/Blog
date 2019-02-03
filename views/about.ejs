@@ -3,9 +3,11 @@
     <div class="ui piled segment">
         <img class="ui small centered circular image" src="<%= global.config.about.avatar_url %>">
         <div align="center" style="padding-top: 10px"><h2><%= global.config.about.name%></h2></div>
-        <div align="center" style="padding-top: 5px;color: #6a737d"><%= global.config.about.description%></div>
-        <div class="ui raised segment" align="center">
-            <%= global.config.about.introduction%>
+        <div align="center" style="padding-top: 5px;color: #6a737d"><%= global.config.about.introduction%></div>
+        <div class="ui raised segment">
+            <div style="padding: 50px">
+                <%- about_content %>
+            </div>
         </div>
         <div align="center">
             <table class="ui selectable celled table" style="padding: 10px;width: 65%">
