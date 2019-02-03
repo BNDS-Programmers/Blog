@@ -24,6 +24,10 @@
  ```
  pm2 start app.js
  ```
+ 
+ # Login
+ You can login into the account set in the configuration file by accessing
+ `/manage/login`.
 
  # Configuration
  First copy a `config.js` from `config-example.js`, and then modify it as your will.
@@ -48,7 +52,7 @@
     - `avatar_url`: the url of the avatar
     - `name`: your nickname
     - `introduction`: your full self-intro
-    - `description`: your short description
+    - `about_content`: the markdown file in `views/static` that stores your long introduction. This supports features in `markdown-it-decorate`
     - `skills`: self-rating skills
 - `session_sec`: the session secrete key
 - `url`: the url of the blog
