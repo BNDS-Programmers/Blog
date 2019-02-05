@@ -59,9 +59,13 @@
     <div class="ui top fixed borderless labeled icon menu" style="position: fixed;">
         <div class="ui container">
             <a class="header item" href="/">
-                <span style="width: 90px; height: 30px; font-size: 30px; text-align: center">
-                    <%= global.config.title%>
-                </span>
+                <% if (global.config.title_image === null) {%>
+                    <span  style="text-align: center;margin: auto;width: 50%;border: 2px solid black;padding: 10px;">
+                        <%= global.config.title%>
+                    </span>
+                <% } else { %>
+                    <img src="/images/<%= global.config.title_image%>" style="width: 78px"/>
+                <% } %>
             </a>
             <a class="item <% if (current === 'home') { %> active <% } %>" href="/">
                 <i class="home icon"> </i>
@@ -92,8 +96,3 @@
             </div>
         </div>
     </div>
-    </br>
-    </br>
-    </br>
-    </br>
-    
