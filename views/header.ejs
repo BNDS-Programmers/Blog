@@ -6,7 +6,9 @@
     <title><%= title%> - <%= subtitle%></title>
     <script type="text/javascript" src="/libs/jquery.min.js"></script>
     <link rel="stylesheet" href="/libs/semantic-ui/semantic.min.css">
+    <link rel="stylesheet" href="/libs/hamburger.css" type="text/css" media="all">
     <script type="text/javascript" src="/libs/semantic-ui/semantic.min.js"></script>
+    <script type="text/javascript" src="/libs/hamburger.js"></script>
     <!--- Highlight.js -->
     <link rel="stylesheet" href="/libs/highlight/styles/<%= global.config.code_highlight_theme %>.css">
     <script src="/libs/highlight/highlight.pack.js"></script>
@@ -56,7 +58,7 @@
   </script>
 </head>
 <body>
-    <div class="ui top fixed borderless labeled icon menu" style="position: fixed;">
+    <div class="ui top fixed borderless labeled icon stackable menu" style="position: fixed;">
         <div class="ui container">
             <a class="header item" href="/">
                 <% if (global.config.title_image === null) {%>
@@ -94,5 +96,11 @@
                     </div>
                 </form>
             </div>
+        </div>
+        <div class="hamburger ">
+            <span class="hamburger-home"></span>
+            <span class="hamburger-archive"></span>
+            <span class="hamburger-projects"></span>
+            <span class="hamburger-about"></span>
         </div>
     </div>
