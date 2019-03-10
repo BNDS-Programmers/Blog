@@ -9,6 +9,7 @@
                 <%- about_content %>
             </div>
         </div>
+        <% if (global.config.show_skills) {%>
         <div align="center">
             <table class="ui selectable celled table" style="padding: 10px;width: 65%">
                 <thead>
@@ -34,6 +35,7 @@
                 </tbody>
             </table>
         </div>
+        <% } %>
         <div align="center" style="padding-top: 10px">
             <a href="<%= global.config.about.github%>" style="color: black"><i class="large github icon"></i></a>
             <a href="<%= 'mailto:' + global.config.about.email%>" style="color: DarkKhaki"><i class="large mail icon"></i></a>

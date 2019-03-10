@@ -27,6 +27,7 @@ config = {
         name: 'AD1024', 
         introduction: "我系渣渣辉，说话战斗，罩衣自由，提现到手，今晚八点，贪玩蓝月，准时开车",
         about_content: '', // store your about description markdown file in views/static/{filename}.md  
+        show_skills: true, // display information below
         skills: {
             'C++': 3.5, 
             'C': 4, 
