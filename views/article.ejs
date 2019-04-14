@@ -1,4 +1,12 @@
 <% include header %>
+<style>
+    p {
+        line-height: 2;
+    }
+    li {
+        line-height: 1.5;
+    }
+</style>
 <div class="ui main container" style="width: 65%;padding-top: 85px;padding-bottom: 20px">
     <div align="center">
         <h1><%= title%></h1>
@@ -13,7 +21,7 @@
             <% } %>
         </div>
     <% } %>
-        <div class="ui segment" style="overflow-y: scroll;font-size: 14pt">
+        <div style="padding-top: 25px;font-size: 20px; font-family: 'PT Serif', serif;">
             <%- content%>
         </div>
     <% if(user) {%>
