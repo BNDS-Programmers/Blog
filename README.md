@@ -48,6 +48,9 @@
 - `manage`: the configuration of the admin page
     - `article_pageinate`: the maximum count of articles listed in the manage list.
     - `user_pageinate`: **(Currently this item is not useful)**
+- `live2d`: configuration of live2d on the homepage
+    - `model`: which model to use (see /static/live2d/model)
+    - `conf`: configuration file of the model.
 - `about`: the data for about page
     - `avatar_url`: the url of the avatar
     - `name`: your nickname
