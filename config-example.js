@@ -8,7 +8,8 @@ config = {
         root: "root", 
         AD1024: "!QAZXSW@#EDC"
     }, 
-    favicon: null, 
+    favicon: null,
+    enable_live2d: false,
     article_cover_count: 19, 
     db: {
         host: "localhost",
@@ -21,6 +22,11 @@ config = {
     manage: {
         article_pageinate: 10, 
         user_pageinate: 10, 
+    },
+    live2d: {
+        enable_live2d: true,
+        model: 'Model',
+        conf: 'model.json',
     },
     about: {
         avatar_url: 'https://avatars1.githubusercontent.com/u/12641212?s=460&v=4', 

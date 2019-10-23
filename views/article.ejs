@@ -25,11 +25,16 @@
             <% } %>
         </div>
     <% } %>
-        <div style="padding-top: 25px;font-size: 20px; font-family: 'PT Serif', serif;">
+        <div style="padding-top: 25px;font-size: 20px; font-family: 'Computer Modern Serif'">
             <%- content%>
         </div>
     <% if(user) {%>
         <div style="padding: 20px;" align="center"><a href="/manage/articles/edit?id=<%= article_id%>" class="ui primary button">Edit Article</a></div>
     <% } %>
 </div>
+<script type="text/javascript">
+    $(document).ready(() => {
+        $(':header').css("font-family", "Computer Modern Serif")
+    });
+</script>
 
