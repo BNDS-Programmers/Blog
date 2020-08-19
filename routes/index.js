@@ -91,7 +91,7 @@ router.get('/archive', async (ctx, response, next) => {
     return ctx.render('archive', dict_render);
     }
     let article_date_list = [];
-    let current_date = article_list[0].createdAt.toLocaleDateString();
+    let current_date = article_list[0].createdAt.toLocaleDateString().substring(0, 4);
     article_date_list[0] = {
         date: current_date, 
         articles: [article_list[0], ], 
@@ -99,7 +99,7 @@ router.get('/archive', async (ctx, response, next) => {
     var archive_length = 0;
     for(var i = 1;i < article_list.length;++i) {
         var cur_article = article_list[i];
-        var date = cur_article.createdAt.toLocaleDateString();
+        var date = cur_article.createdAt.toLocaleDateString().substring(0, 4);
         if(current_date !== date) {
             current_date = date;
             article_date_list[++archive_length] = {};
